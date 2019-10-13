@@ -1,15 +1,29 @@
 namespace HOMM
 {
+    public enum UnitType
+    {
+        CrossbowMan,
+        Skeleton,
+        Fury,
+        Hydra,
+        Angel,
+        BoneDragon,
+        Devil,
+        Cyclope,
+        Shaman,
+        Lich
+    }
+    
     public class Unit
     {
-        private readonly string _type;
-        private readonly int _hitPoints;
-        private readonly int _attack;
-        private readonly int _defence;
-        private readonly (int, int) _damage;
+        private readonly UnitType _type;
+        private readonly uint _hitPoints;
+        private readonly uint _attack;
+        private readonly uint _defence;
+        private readonly (uint, uint) _damage;
         private readonly float _initiative;
 
-        public Unit(string type, int hitPoints, int attack, int defence, (int, int) damage, float initiative)
+        public Unit(UnitType type, uint hitPoints, uint attack, uint defence, (uint, uint) damage, float initiative)
         {
             _type = type;
             _hitPoints = hitPoints;
@@ -19,15 +33,15 @@ namespace HOMM
             _initiative = initiative;
         }
 
-        public new string GetType() { return _type; }
+        public new UnitType GetType() { return _type; }
 
-        public int GetHitPoints() { return _hitPoints; }
+        public uint GetHitPoints() { return _hitPoints; }
         
-        public int GetAttack() { return _attack; }
+        public uint GetAttack() { return _attack; }
         
-        public int GetDefence() { return _defence; }
+        public uint GetDefence() { return _defence; }
         
-        public (int, int) GetDamage() { return _damage; }
+        public (uint, uint) GetDamage() { return _damage; }
         
         public float GetInitiative() { return _initiative; }
     }
