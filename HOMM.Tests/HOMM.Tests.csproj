@@ -4,11 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{42F41446-B887-4A0F-9208-AAD4B773C33C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{7A6DD78D-22C5-4DFF-9B2A-FC3717A77893}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HOMM</RootNamespace>
-    <AssemblyName>HOMM</AssemblyName>
+    <RootNamespace>HOMM.Tests</RootNamespace>
+    <AssemblyName>HOMM.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -36,15 +37,19 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
+      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Army.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="UnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unit.cs" />
-    <Compile Include="UnitsStack.cs" />
-    <Compile Include="Units\UnitAngel.cs" />
-    <Compile Include="Units\UnitSkeleton.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HOMM\HOMM.csproj">
+      <Project>{42f41446-b887-4a0f-9208-aad4b773c33c}</Project>
+      <Name>HOMM</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
