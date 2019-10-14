@@ -5,13 +5,13 @@ namespace HOMM
 {
     public class Army
     {
-        public static readonly uint MAX_ARMY_SIZE = 6;
-        
+        public const uint MaxArmySize = 6;
+
         private readonly IList<UnitsStack> _stacks;
         
         public Army(IList<UnitsStack> stacks)
         {
-            if (stacks.Count > MAX_ARMY_SIZE)
+            if (stacks.Count > MaxArmySize)
             {
                 throw new ArgumentOutOfRangeException(nameof(stacks), "Maximum size of army is 6");
             }
