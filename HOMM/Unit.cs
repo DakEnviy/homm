@@ -33,7 +33,7 @@ namespace HOMM
             _initiative = initiative;
         }
 
-        public new UnitType GetType() => _type;
+        public UnitType GetUnitType() => _type;
 
         public uint GetHitPoints() => _hitPoints;
 

@@ -18,7 +18,7 @@ namespace HOMM.Tests
             
             Unit unit = new Unit(type, hitPoints, attack, defence, damage, initiative);
 
-            Assert.AreEqual(type, unit.GetType());
+            Assert.AreEqual(type, unit.GetUnitType());
             Assert.AreEqual(hitPoints, unit.GetHitPoints());
             Assert.AreEqual(attack, unit.GetAttack());
             Assert.AreEqual(defence, unit.GetDefence());
@@ -38,7 +38,7 @@ namespace HOMM.Tests
             
             Unit unit = new UnitAngel();
 
-            Assert.AreEqual(type, unit.GetType());
+            Assert.AreEqual(type, unit.GetUnitType());
             Assert.AreEqual(hitPoints, unit.GetHitPoints());
             Assert.AreEqual(attack, unit.GetAttack());
             Assert.AreEqual(defence, unit.GetDefence());
