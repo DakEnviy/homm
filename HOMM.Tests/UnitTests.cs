@@ -1,5 +1,6 @@
-﻿using HOMM.Objects;
+using HOMM.Objects;
 using HOMM.Units;
+using HOMM.Utils;
 using NUnit.Framework;
 
 namespace HOMM.Tests
@@ -45,6 +46,14 @@ namespace HOMM.Tests
             Assert.AreEqual(defence, unit.GetDefence());
             Assert.AreEqual(damage, unit.GetDamage());
             Assert.AreEqual(initiative, unit.GetInitiative());
+        }
+
+        [Test]
+        public void Test()
+        {
+            UnitProperty prop = UnitProperty.Shooter;
+            
+            Assert.AreEqual("Shooter1", prop.GetDescription());
         }
     }
 }
