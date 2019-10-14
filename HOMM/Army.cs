@@ -7,9 +7,9 @@ namespace HOMM
     {
         public static readonly uint MAX_ARMY_SIZE = 6;
         
-        private readonly List<UnitsStack> _stacks;
+        private readonly IList<UnitsStack> _stacks;
         
-        public Army(List<UnitsStack> stacks)
+        public Army(IList<UnitsStack> stacks)
         {
             if (stacks.Count > MAX_ARMY_SIZE)
             {
@@ -19,6 +19,6 @@ namespace HOMM
             _stacks = stacks;
         }
 
-        public List<UnitsStack> GetStacks() { return _stacks; }
+        public IReadOnlyList<UnitsStack> GetStacks() => (IReadOnlyList<UnitsStack>) _stacks;
     }
 }

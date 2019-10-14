@@ -20,8 +20,8 @@ namespace HOMM
             _amount = amount;
         }
 
-        public Unit GetUnit() { return _unit; }
-        
-        public uint GetAmount() { return _amount; }
+        public Unit GetUnit() => _unit;
+
+        public uint GetAmount() => _amount;
     }
 }

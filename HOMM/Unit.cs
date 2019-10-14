@@ -33,16 +33,16 @@ namespace HOMM
             _initiative = initiative;
         }
 
-        public new UnitType GetType() { return _type; }
+        public new UnitType GetType() => _type;
 
-        public uint GetHitPoints() { return _hitPoints; }
-        
-        public uint GetAttack() { return _attack; }
-        
-        public uint GetDefence() { return _defence; }
-        
-        public (uint, uint) GetDamage() { return _damage; }
-        
-        public float GetInitiative() { return _initiative; }
+        public uint GetHitPoints() => _hitPoints;
+
+        public uint GetAttack() => _attack;
+
+        public uint GetDefence() => _defence;
+
+        public (uint, uint) GetDamage() => _damage;
+
+        public float GetInitiative() => _initiative;
     }
 }
