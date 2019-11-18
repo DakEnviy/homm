@@ -51,6 +51,11 @@ namespace HOMM.BattleObjects
         public void NextTurn()
         {
             _currentStacks.RemoveAt(0);
+
+            if (_currentStacks.Count == 0)
+            {
+                NextRound();
+            }
         }
 
         public IList<BattleUnitsStack> GetSortedStacks()
@@ -84,15 +89,26 @@ namespace HOMM.BattleObjects
         }
         
         public void UseSkill(/* Skill */) {}
-        
-        public void Wait() {}
-        
-        public void Defend() {}
-        
-        public void Surrender() {}
-        
-        public BattleArmy GetAttacker() => _attacker;
 
+        public void Wait()
+        {
+            _currentStacks.Add(GetCurrentStack());
+        }
+
+        public void Defend()
+        {
+            var stack = GetCurrentStack();
+            
+            stack.SetDefence((int) (stack.GetDefence() * 1.3));
+        }
+
+        public void Surrender()
+        {
+            _armies.Remove(GetCurrentArmy());
+        }
+
+        public BattleArmy GetAttacker() => _attacker;
+        
         public BattleArmy GetTarget() => _target;
 
         public BattleState GetBattleState() => _state;
