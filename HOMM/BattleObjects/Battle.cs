@@ -14,6 +14,7 @@ namespace HOMM.BattleObjects
     {
         private readonly BattleArmy _attacker;
         private readonly BattleArmy _target;
+        private readonly Random _random;
 
         private BattleState _state;
         private int _round;
@@ -32,8 +33,25 @@ namespace HOMM.BattleObjects
 
             _currentStacks = null;
         }
-        
-        public void Attack(BattleUnitsStack target) {}
+
+        public void Attack(BattleUnitsStack target)
+        {
+            var amount = _currentStack.GetAmount();
+            var damage = _currentStack.GetDamage();
+            var attack = _currentStack.GetAttack();
+            var defence = target.GetDefence();
+
+            var minDamage = attack > defence
+                ? amount * damage.Item1 * (1 + 0.05 * (attack - defence))
+                : amount * damage.Item1 / (1 + 0.05 * (defence - attack));
+            var maxDamage = attack > defence
+                ? amount * damage.Item2 * (1 + 0.05 * (attack - defence))
+                : amount * damage.Item2 / (1 + 0.05 * (defence - attack));
+            
+            var finalDamage = (ushort) Math.Round(minDamage + _random.NextDouble() * (maxDamage - minDamage));
+            
+            target.Damage(finalDamage);
+        }
         
         public void UseSkill(/* Skill */) {}
         
