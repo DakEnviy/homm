@@ -94,6 +94,8 @@ namespace HOMM.BattleObjects
         public UnitsStack GetBaseStack() => _baseStack;
         
         public Unit GetBaseUnit() => _baseUnit;
+        
+        public BattleArmy GetArmy() => _army;
 
         public int GetAmount() => _amount;
         

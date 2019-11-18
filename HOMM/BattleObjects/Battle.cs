@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using HOMM.Objects;
+using System.Linq;
 
 namespace HOMM.BattleObjects
 {
@@ -34,11 +35,38 @@ namespace HOMM.BattleObjects
             _currentStacks = null;
         }
 
+        public void Start()
+        {
+            _state = BattleState.InGame;
+            
+            NextRound();
+        }
+
+        public void NextRound()
+        {
+            ++_round;
+            _currentStacks = GetSortedStacks();
+        }
+
+        public void NextTurn()
+        {
+            _currentStacks.RemoveAt(0);
+        }
+
+        public IList<BattleUnitsStack> GetSortedStacks()
+        {
+            return _armies.SelectMany(army => army.GetStacks())
+                .OrderByDescending(stack => stack.GetInitiative())
+                .ToList();
+        }
+
         public void Attack(BattleUnitsStack target)
         {
-            var amount = _currentStack.GetAmount();
-            var damage = _currentStack.GetDamage();
-            var attack = _currentStack.GetAttack();
+            var source = GetCurrentStack();
+            
+            var amount = source.GetAmount();
+            var damage = source.GetDamage();
+            var attack = source.GetAttack();
             var defence = target.GetDefence();
 
             var minDamage = attack > defence
@@ -51,6 +79,8 @@ namespace HOMM.BattleObjects
             var finalDamage = (ushort) Math.Round(minDamage + _random.NextDouble() * (maxDamage - minDamage));
             
             target.Damage(finalDamage);
+            
+            NextTurn();
         }
         
         public void UseSkill(/* Skill */) {}
