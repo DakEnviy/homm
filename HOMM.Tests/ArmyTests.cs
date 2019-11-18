@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using HOMM.Objects;
 using HOMM.Units;
 using NUnit.Framework;
 

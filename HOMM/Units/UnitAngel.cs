@@ -1,3 +1,5 @@
+using HOMM.Objects;
+
 namespace HOMM.Units
 {
     public class UnitAngel : Unit

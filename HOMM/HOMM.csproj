@@ -38,11 +38,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Army.cs" />
+    <Compile Include="BattleObjects\Battle.cs" />
+    <Compile Include="BattleObjects\BattleArmy.cs" />
+    <Compile Include="BattleObjects\BattleUnitsStack.cs" />
+    <Compile Include="Objects\Army.cs" />
+    <Compile Include="Objects\Unit.cs" />
+    <Compile Include="Objects\UnitsStack.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Unit.cs" />
-    <Compile Include="UnitsStack.cs" />
     <Compile Include="Units\UnitAngel.cs" />
     <Compile Include="Units\UnitSkeleton.cs" />
   </ItemGroup>

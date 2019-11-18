@@ -43,6 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArmyTests.cs" />
+    <Compile Include="BattleArmyTests.cs" />
+    <Compile Include="BattleTests.cs" />
+    <Compile Include="BattleUnitsStackTests.cs" />
     <Compile Include="UnitsStackTests.cs" />
     <Compile Include="UnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

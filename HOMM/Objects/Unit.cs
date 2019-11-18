@@ -1,4 +1,4 @@
-namespace HOMM
+namespace HOMM.Objects
 {
     public enum UnitType
     {
@@ -17,13 +17,13 @@ namespace HOMM
     public class Unit
     {
         private readonly UnitType _type;
-        private readonly uint _hitPoints;
-        private readonly uint _attack;
-        private readonly uint _defence;
-        private readonly (uint, uint) _damage;
+        private readonly int _hitPoints;
+        private readonly int _attack;
+        private readonly int _defence;
+        private readonly (int, int) _damage;
         private readonly float _initiative;
 
-        public Unit(UnitType type, uint hitPoints, uint attack, uint defence, (uint, uint) damage, float initiative)
+        public Unit(UnitType type, int hitPoints, int attack, int defence, (int, int) damage, float initiative)
         {
             _type = type;
             _hitPoints = hitPoints;
@@ -35,13 +35,13 @@ namespace HOMM
 
         public UnitType GetUnitType() => _type;
 
-        public uint GetHitPoints() => _hitPoints;
+        public int GetHitPoints() => _hitPoints;
 
-        public uint GetAttack() => _attack;
+        public int GetAttack() => _attack;
 
-        public uint GetDefence() => _defence;
+        public int GetDefence() => _defence;
 
-        public (uint, uint) GetDamage() => _damage;
+        public (int, int) GetDamage() => _damage;
 
         public float GetInitiative() => _initiative;
     }
