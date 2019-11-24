@@ -125,9 +125,9 @@ namespace HOMM.BattleObjects
         {
             SetHitPoints(GetHitPoints() - hitPoints);
         }
-        
+
         public bool IsAlive() => _amount > 0;
-        
+
         public bool IsDead() => _amount == 0;
 
         public int GetHitPoints()
