@@ -28,6 +28,7 @@ namespace HOMM.BattleObjects
             RestoreFromBaseStack();
 
             _isDefended = false;
+            _isWaiting = false;
         }
 
         public void RestoreFromBaseStack()
