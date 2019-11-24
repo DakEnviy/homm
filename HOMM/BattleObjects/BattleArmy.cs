@@ -39,6 +39,10 @@ namespace HOMM.BattleObjects
         
         public bool IsTarget() => this == _battle.GetTarget();
 
+        public bool IsAttacker() => this == _battle.GetAttacker();
+        
+        public bool IsTarget() => this == _battle.GetTarget();
+
         public void AddStack(BattleUnitsStack stack)
         {
             if (_stacks.Count == MaxBattleArmySize)

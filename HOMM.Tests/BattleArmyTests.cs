@@ -60,7 +60,34 @@ namespace HOMM.Tests
         }
 
         [Test]
-        public void BattleArmy_GetStackByUnitType()
+        public void BattleArmy_GetStacks()
+        {
+            Unit angel = new UnitAngel();
+            Unit skeleton = new UnitSkeleton();
+
+            UnitsStack stack1 = new UnitsStack(angel, 10);
+            UnitsStack stack2 = new UnitsStack(skeleton, 42);
+            UnitsStack stack3 = new UnitsStack(angel, 42);
+
+            List<UnitsStack> stacks = new List<UnitsStack> {stack1, stack2, stack3};
+
+            Army baseArmy = new Army(stacks);
+            BattleArmy army = new BattleArmy(baseArmy, null);
+            
+            army.GetStack(0).SetHitPoints(0);
+
+            IList<BattleUnitsStack> aliveStacks = army.GetAliveStacks();
+            IList<BattleUnitsStack> deadStacks = army.GetDeadStacks();
+            
+            Assert.AreEqual(2, aliveStacks.Count);
+            Assert.AreEqual(stack2, aliveStacks[0].GetBaseStack());
+            Assert.AreEqual(stack3, aliveStacks[1].GetBaseStack());
+            Assert.AreEqual(1, deadStacks.Count);
+            Assert.AreEqual(stack1, deadStacks[0].GetBaseStack());
+        }
+
+        [Test]
+        public void BattleArmy_GetStacksByUnitType()
         {
             Unit angel = new UnitAngel();
             Unit skeleton = new UnitSkeleton();
@@ -82,6 +109,33 @@ namespace HOMM.Tests
             Assert.AreEqual(stack2, angels[1].GetBaseStack());
             Assert.AreEqual(1, skeletons.Count);
             Assert.AreEqual(stack3, skeletons[0].GetBaseStack());
+        }
+
+        [Test]
+        public void Battle_Side()
+        {
+            Unit angel = new UnitAngel();
+            Unit skeleton = new UnitSkeleton();
+
+            UnitsStack stack1 = new UnitsStack(angel, 10);
+            UnitsStack stack2 = new UnitsStack(skeleton, 42);
+            UnitsStack stack3 = new UnitsStack(angel, 2);
+
+            List<UnitsStack> stacks1 = new List<UnitsStack> {stack1, stack2};
+            List<UnitsStack> stacks2 = new List<UnitsStack> {stack3};
+
+            Army army1 = new Army(stacks1);
+            Army army2 = new Army(stacks2);
+            
+            Battle battle = new Battle(army1, army2);
+            
+            BattleArmy battleArmy1 = battle.GetAttacker();
+            BattleArmy battleArmy2 = battle.GetTarget();
+            
+            Assert.IsTrue(battleArmy1.IsAttacker());
+            Assert.IsFalse(battleArmy1.IsTarget());
+            Assert.IsFalse(battleArmy2.IsAttacker());
+            Assert.IsTrue(battleArmy2.IsTarget());
         }
 
         [Test]
