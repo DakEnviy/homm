@@ -7,6 +7,7 @@ namespace HOMM.BattleObjects
     {
         private readonly UnitsStack _baseStack;
         private readonly Unit _baseUnit;
+        private readonly BattleArmy _army;
         
         private int _amount;
         private int _topHitPoints;
@@ -15,10 +16,11 @@ namespace HOMM.BattleObjects
         private (int, int) _damage;
         private float _initiative;
 
-        public BattleUnitsStack(UnitsStack stack)
+        public BattleUnitsStack(UnitsStack stack, BattleArmy army)
         {
             _baseStack = stack;
             _baseUnit = stack.GetUnit();
+            _army = army;
 
             RestoreFromBaseStack();
         }
@@ -57,6 +59,10 @@ namespace HOMM.BattleObjects
         {
             SetHitPoints(GetHitPoints() - hitPoints);
         }
+        
+        public bool IsAlive() => _amount > 0;
+        
+        public bool IsDead() => _amount == 0;
 
         public int GetHitPoints()
         {
@@ -90,6 +96,8 @@ namespace HOMM.BattleObjects
         public Unit GetBaseUnit() => _baseUnit;
 
         public int GetAmount() => _amount;
+        
+        public BattleArmy GetArmy() => _army;
 
         public void SetAmount(int amount)
         {

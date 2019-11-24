@@ -22,22 +22,19 @@ namespace HOMM.Tests
             List<UnitsStack> stacks1 = new List<UnitsStack> {stack1, stack2};
             List<UnitsStack> stacks2 = new List<UnitsStack> {stack3};
 
-            Army baseArmy1 = new Army(stacks1);
-            Army baseArmy2 = new Army(stacks2);
+            Army army1 = new Army(stacks1);
+            Army army2 = new Army(stacks2);
             
-            BattleArmy army1 = new BattleArmy(baseArmy1);
-            BattleArmy army2 = new BattleArmy(baseArmy2);
+            Battle battle = new Battle(army1, army2);
             
-            List<BattleArmy> armies = new List<BattleArmy> {army1, army2};
-            
-            Battle battle = new Battle(armies);
-            
-            Assert.AreEqual(armies, battle.GetArmies());
+            Assert.AreEqual(army1, battle.GetAttacker().GetBaseArmy());
+            Assert.AreEqual(army2, battle.GetTarget().GetBaseArmy());
             Assert.AreEqual(BattleState.None, battle.GetBattleState());
             Assert.AreEqual(0, battle.GetRound());
             Assert.IsNull(battle.GetWinner());
-            Assert.AreEqual(-1, battle.GetCurrentArmyIndex());
+            Assert.IsNull(battle.GetCurrentStacks());
             Assert.IsNull(battle.GetCurrentStack());
+            Assert.IsNull(battle.GetCurrentArmy());
         }
     }
 }

@@ -10,20 +10,34 @@ namespace HOMM.BattleObjects
         private const int MaxBattleArmySize = 9;
 
         private readonly Army _baseArmy;
+        private readonly Battle _battle;
         private readonly IList<BattleUnitsStack> _stacks;
 
-        public BattleArmy(Army army)
+        public BattleArmy(Army army, Battle battle)
         {
             _baseArmy = army;
-            _stacks = army.GetStacks().Select(stack => new BattleUnitsStack(stack)).ToList();
+            _battle = battle;
+            _stacks = army.GetStacks().Select(stack => new BattleUnitsStack(stack, this)).ToList();
         }
 
         public Army GetBaseArmy() => _baseArmy;
+        
+        public Battle GetBattle() => _battle;
 
         public IList<BattleUnitsStack> GetStacks() => _stacks;
+        
+        public IList<BattleUnitsStack> GetAliveStacks() =>
+            _stacks.Where(stack => stack.IsAlive()).ToList();
+
+        public IList<BattleUnitsStack> GetDeadStacks() =>
+            _stacks.Where(stack => stack.IsDead()).ToList();
 
         public IList<BattleUnitsStack> GetStacksByUnitType(UnitType unitType) =>
             _stacks.Where(stack => stack.GetBaseUnit().GetUnitType() == unitType).ToList();
+        
+        public bool IsAttacker() => this == _battle.GetAttacker();
+        
+        public bool IsTarget() => this == _battle.GetTarget();
 
         public void AddStack(BattleUnitsStack stack)
         {

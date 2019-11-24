@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using HOMM.Objects;
 
 namespace HOMM.BattleObjects
 {
@@ -12,25 +12,25 @@ namespace HOMM.BattleObjects
     
     public class Battle
     {
-        private readonly IList<BattleArmy> _armies;
+        private readonly BattleArmy _attacker;
+        private readonly BattleArmy _target;
 
         private BattleState _state;
         private int _round;
         private BattleArmy _winner;
-        
-        private int _currentArmyIndex;
-        private BattleUnitsStack _currentStack;
 
-        public Battle(IList<BattleArmy> armies)
+        private IList<BattleUnitsStack> _currentStacks;
+
+        public Battle(Army attacker, Army target)
         {
-            _armies = armies;
+            _attacker = new BattleArmy(attacker, this);
+            _target = new BattleArmy(target, this);
 
             _state = BattleState.None;
             _round = 0;
             _winner = null;
-            
-            _currentArmyIndex = -1;
-            _currentStack = null;
+
+            _currentStacks = null;
         }
         
         public void Attack(BattleUnitsStack target) {}
@@ -42,8 +42,10 @@ namespace HOMM.BattleObjects
         public void Defend() {}
         
         public void Surrender() {}
+        
+        public BattleArmy GetAttacker() => _attacker;
 
-        public IList<BattleArmy> GetArmies() => _armies;
+        public BattleArmy GetTarget() => _target;
 
         public BattleState GetBattleState() => _state;
         
@@ -51,10 +53,10 @@ namespace HOMM.BattleObjects
         
         public BattleArmy GetWinner() => _winner;
 
-        public int GetCurrentArmyIndex() => _currentArmyIndex;
+        public IList<BattleUnitsStack> GetCurrentStacks() => _currentStacks;
 
-        public BattleArmy GetCurrentArmy() => _armies[_currentArmyIndex];
-        
-        public BattleUnitsStack GetCurrentStack() => _currentStack;
+        public BattleUnitsStack GetCurrentStack() => _currentStacks?[0];
+
+        public BattleArmy GetCurrentArmy() => GetCurrentStack()?.GetArmy();
     }
 }

@@ -22,13 +22,41 @@ namespace HOMM.Tests
             List<UnitsStack> stacks = new List<UnitsStack> {stack1, stack2};
 
             Army baseArmy = new Army(stacks);
-            BattleArmy army = new BattleArmy(baseArmy);
+            BattleArmy army = new BattleArmy(baseArmy, null);
 
             Assert.AreEqual(baseArmy, army.GetBaseArmy());
+            Assert.IsNull(army.GetBattle());
             Assert.AreEqual(stack1, army.GetBaseArmy().GetStacks()[0]);
             Assert.AreEqual(stack2, army.GetBaseArmy().GetStacks()[1]);
             Assert.AreEqual(stack1, army.GetStack(0).GetBaseStack());
             Assert.AreEqual(stack2, army.GetStack(1).GetBaseStack());
+        }
+        
+        [Test]
+        public void BattleArmy_GetStacks()
+        {
+            Unit angel = new UnitAngel();
+            Unit skeleton = new UnitSkeleton();
+
+            UnitsStack stack1 = new UnitsStack(angel, 10);
+            UnitsStack stack2 = new UnitsStack(skeleton, 42);
+            UnitsStack stack3 = new UnitsStack(angel, 42);
+
+            List<UnitsStack> stacks = new List<UnitsStack> {stack1, stack2, stack3};
+
+            Army baseArmy = new Army(stacks);
+            BattleArmy army = new BattleArmy(baseArmy, null);
+            
+            army.GetStack(0).SetHitPoints(0);
+
+            IList<BattleUnitsStack> aliveStacks = army.GetAliveStacks();
+            IList<BattleUnitsStack> deadStacks = army.GetDeadStacks();
+            
+            Assert.AreEqual(2, aliveStacks.Count);
+            Assert.AreEqual(stack2, aliveStacks[0].GetBaseStack());
+            Assert.AreEqual(stack3, aliveStacks[1].GetBaseStack());
+            Assert.AreEqual(1, deadStacks.Count);
+            Assert.AreEqual(stack1, deadStacks[0].GetBaseStack());
         }
 
         [Test]
@@ -44,7 +72,7 @@ namespace HOMM.Tests
             List<UnitsStack> stacks = new List<UnitsStack> {stack1, stack2, stack3};
 
             Army baseArmy = new Army(stacks);
-            BattleArmy army = new BattleArmy(baseArmy);
+            BattleArmy army = new BattleArmy(baseArmy, null);
 
             IList<BattleUnitsStack> angels = army.GetStacksByUnitType(UnitType.Angel);
             IList<BattleUnitsStack> skeletons = army.GetStacksByUnitType(UnitType.Skeleton);
@@ -64,20 +92,21 @@ namespace HOMM.Tests
 
             UnitsStack stack1 = new UnitsStack(angel, 10);
             UnitsStack stack2 = new UnitsStack(angel, 5);
-            BattleUnitsStack stack3 = new BattleUnitsStack(new UnitsStack(skeleton, 42));
-            BattleUnitsStack stack4 = new BattleUnitsStack(new UnitsStack(skeleton, 42));
-            BattleUnitsStack stack5 = new BattleUnitsStack(new UnitsStack(skeleton, 42));
-            BattleUnitsStack stack6 = new BattleUnitsStack(new UnitsStack(skeleton, 42));
-            BattleUnitsStack stack7 = new BattleUnitsStack(new UnitsStack(skeleton, 42));
-            BattleUnitsStack stack8 = new BattleUnitsStack(new UnitsStack(skeleton, 42));
-            BattleUnitsStack stack9 = new BattleUnitsStack(new UnitsStack(skeleton, 42));
-            BattleUnitsStack stack10 = new BattleUnitsStack(new UnitsStack(skeleton, 42));
 
             List<UnitsStack> stacks = new List<UnitsStack> {stack1, stack2};
 
             Army baseArmy = new Army(stacks);
-            BattleArmy army = new BattleArmy(baseArmy);
+            BattleArmy army = new BattleArmy(baseArmy, null);
 
+            BattleUnitsStack stack3 = new BattleUnitsStack(new UnitsStack(skeleton, 42), army);
+            BattleUnitsStack stack4 = new BattleUnitsStack(new UnitsStack(skeleton, 42), army);
+            BattleUnitsStack stack5 = new BattleUnitsStack(new UnitsStack(skeleton, 42), army);
+            BattleUnitsStack stack6 = new BattleUnitsStack(new UnitsStack(skeleton, 42), army);
+            BattleUnitsStack stack7 = new BattleUnitsStack(new UnitsStack(skeleton, 42), army);
+            BattleUnitsStack stack8 = new BattleUnitsStack(new UnitsStack(skeleton, 42), army);
+            BattleUnitsStack stack9 = new BattleUnitsStack(new UnitsStack(skeleton, 42), army);
+            BattleUnitsStack stack10 = new BattleUnitsStack(new UnitsStack(skeleton, 42), army);
+            
             Assert.AreEqual(2, army.GetStacks().Count);
             army.AddStack(stack3);
             Assert.AreEqual(3, army.GetStacks().Count);
@@ -104,7 +133,7 @@ namespace HOMM.Tests
             List<UnitsStack> stacks = new List<UnitsStack> {stack1, stack2};
 
             Army baseArmy = new Army(stacks);
-            BattleArmy army = new BattleArmy(baseArmy);
+            BattleArmy army = new BattleArmy(baseArmy, null);
 
             BattleUnitsStack stack = army.GetStack(0);
             Assert.AreEqual(2, army.GetStacks().Count);
@@ -121,12 +150,13 @@ namespace HOMM.Tests
 
             UnitsStack stack1 = new UnitsStack(angel, 10);
             UnitsStack stack2 = new UnitsStack(skeleton, 42);
-            BattleUnitsStack stack3 = new BattleUnitsStack(new UnitsStack(skeleton, 42));
 
             List<UnitsStack> stacks = new List<UnitsStack> {stack1, stack2};
 
             Army baseArmy = new Army(stacks);
-            BattleArmy army = new BattleArmy(baseArmy);
+            BattleArmy army = new BattleArmy(baseArmy, null);
+            
+            BattleUnitsStack stack3 = new BattleUnitsStack(new UnitsStack(skeleton, 42), army);
 
             army.AddStack(stack3);
             Assert.IsTrue(army.ContainsStack(stack3));

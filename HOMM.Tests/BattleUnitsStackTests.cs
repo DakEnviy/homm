@@ -17,10 +17,11 @@ namespace HOMM.Tests
             
             UnitsStack baseStack = new UnitsStack(unit, amount);
             
-            BattleUnitsStack stack = new BattleUnitsStack(baseStack);
+            BattleUnitsStack stack = new BattleUnitsStack(baseStack, null);
             
             Assert.AreEqual(baseStack, stack.GetBaseStack());
             Assert.AreEqual(unit, stack.GetBaseUnit());
+            Assert.IsNull(stack.GetArmy());
             Assert.AreEqual(amount, stack.GetAmount());
             Assert.AreEqual(unit.GetHitPoints(), stack.GetTopHitPoints());
             Assert.AreEqual(unit.GetAttack(), stack.GetAttack());
@@ -43,7 +44,7 @@ namespace HOMM.Tests
             
             UnitsStack baseStack = new UnitsStack(unit, amount);
             
-            BattleUnitsStack stack = new BattleUnitsStack(baseStack);
+            BattleUnitsStack stack = new BattleUnitsStack(baseStack, null);
             
             Assert.AreEqual(amount, stack.GetAmount());
             stack.SetAmount(newAmount);
@@ -80,7 +81,7 @@ namespace HOMM.Tests
             
             UnitsStack baseStack = new UnitsStack(unit, amount);
             
-            BattleUnitsStack stack = new BattleUnitsStack(baseStack);
+            BattleUnitsStack stack = new BattleUnitsStack(baseStack, null);
             
             Assert.AreEqual(unit.GetHitPoints(), stack.GetTopHitPoints());
             stack.SetTopHitPoints(newTopHitPoints);
@@ -103,7 +104,7 @@ namespace HOMM.Tests
             
             UnitsStack baseStack = new UnitsStack(unit, amount);
             
-            BattleUnitsStack stack = new BattleUnitsStack(baseStack);
+            BattleUnitsStack stack = new BattleUnitsStack(baseStack, null);
             
             Assert.AreEqual(stackHitPoints, stack.GetHitPoints());
             stack.SetTopHitPoints(newTopHitPoints);
@@ -127,7 +128,7 @@ namespace HOMM.Tests
             
             UnitsStack baseStack = new UnitsStack(unit, amount);
             
-            BattleUnitsStack stack = new BattleUnitsStack(baseStack);
+            BattleUnitsStack stack = new BattleUnitsStack(baseStack, null);
             
             Assert.AreEqual(stackHitPoints, stack.GetHitPoints());
             Assert.AreEqual(amount, stack.GetAmount());
@@ -155,7 +156,7 @@ namespace HOMM.Tests
             
             UnitsStack baseStack = new UnitsStack(unit, amount);
             
-            BattleUnitsStack stack = new BattleUnitsStack(baseStack);
+            BattleUnitsStack stack = new BattleUnitsStack(baseStack, null);
             
             stack.SetHitPoints(0);
             stack.Resurrect(resurrectHitPoints);
@@ -175,7 +176,7 @@ namespace HOMM.Tests
             
             UnitsStack baseStack = new UnitsStack(unit, amount);
             
-            BattleUnitsStack stack = new BattleUnitsStack(baseStack);
+            BattleUnitsStack stack = new BattleUnitsStack(baseStack, null);
             
             stack.Damage(damageHitPoints);
             Assert.AreEqual(stackHitPoints - damageHitPoints, stack.GetHitPoints());
