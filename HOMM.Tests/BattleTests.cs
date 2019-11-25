@@ -375,14 +375,18 @@ namespace HOMM.Tests
             Battle battle = new Battle(army1, army2);
             battle.Start();
             
+            BattleUnitsStack target1 = battle.GetStacks()[0];
             BattleUnitsStack target2 = battle.GetStacks()[1];
             BattleUnitsStack target3 = battle.GetStacks()[2];
             
             battle.Attack(target3);
+            Assert.AreEqual(1755, target1.GetHitPoints());
             Assert.AreEqual(90, target3.GetHitPoints());
             battle.Attack(target2);
+            Assert.AreEqual(90, target3.GetHitPoints());
             Assert.AreEqual(109, target2.GetHitPoints());
             battle.Attack(target3);
+            Assert.AreEqual(109, target2.GetHitPoints());
             Assert.AreEqual(80, target3.GetHitPoints());
             Assert.AreEqual(2, battle.GetRound());
             

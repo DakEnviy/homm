@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using HOMM.Objects;
 
 namespace HOMM.BattleObjects
@@ -20,6 +22,8 @@ namespace HOMM.BattleObjects
         private bool _isWaiting;
         private bool _isAnswered;
 
+        private IList<BattleUnitsStackMod> _mods;
+
         public BattleUnitsStack(UnitsStack stack, BattleArmy army)
         {
             _baseStack = stack;
@@ -31,6 +35,14 @@ namespace HOMM.BattleObjects
             _isDefended = false;
             _isWaiting = false;
             _isAnswered = false;
+            
+            _mods = new List<BattleUnitsStackMod>();
+
+            foreach (var property in _baseUnit.GetProperties())
+            {
+                var mod = property.GetMod(this);
+                if (mod != null) AddMod(mod);
+            }
         }
 
         public void RestoreFromBaseStack()
@@ -51,6 +63,48 @@ namespace HOMM.BattleObjects
             _defence = _baseUnit.GetDefence();
             _damage = _baseUnit.GetDamage();
             _initiative = _baseUnit.GetInitiative();
+        }
+
+        public void Round()
+        {
+            foreach (var mod in _mods)
+            {
+                mod.Round();
+            }
+
+            foreach (var mod in _mods.Where(mod => mod.GetRoundsLeft() == 0))
+            {
+                RemoveMod(mod);
+            }
+            
+            UpdateParamsByMods();
+        }
+
+        public void AddMod(BattleUnitsStackMod mod)
+        {
+            mod.Attach();
+            _mods.Add(mod);
+        }
+
+        public void RemoveMod(BattleUnitsStackMod mod)
+        {
+            mod.Detach();
+            _mods.Remove(mod);
+        }
+
+        public bool ContainsMod(BattleUnitsStackMod mod)
+        {
+            return _mods.Contains(mod);
+        }
+
+        public void UpdateParamsByMods()
+        {
+            SetDefaultParams();
+
+            foreach (var mod in _mods)
+            {
+                mod.UpdateParams();
+            }
         }
 
         public void Heal(ushort hitPoints)
@@ -167,5 +221,7 @@ namespace HOMM.BattleObjects
         {
             _isAnswered = isAnswered;
         }
+
+        public IList<BattleUnitsStackMod> GetMods() => _mods;
     }
 }

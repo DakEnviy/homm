@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Linq;
 
 namespace HOMM.Objects
 {
@@ -25,8 +25,9 @@ namespace HOMM.Objects
         private readonly int _defence;
         private readonly (int, int) _damage;
         private readonly float _initiative;
+        private readonly ISet<UnitProperty> _properties;
 
-        public Unit(UnitType type, int hitPoints, int attack, int defence, (int, int) damage, float initiative)
+        public Unit(UnitType type, int hitPoints, int attack, int defence, (int, int) damage, float initiative, params UnitProperty[] properties)
         {
             _type = type;
             _hitPoints = hitPoints;
@@ -34,6 +35,7 @@ namespace HOMM.Objects
             _defence = defence;
             _damage = damage;
             _initiative = initiative;
+            _properties = properties.ToHashSet();
         }
 
         public UnitType GetUnitType() => _type;
@@ -47,5 +49,7 @@ namespace HOMM.Objects
         public (int, int) GetDamage() => _damage;
 
         public float GetInitiative() => _initiative;
+
+        public ISet<UnitProperty> GetProperties() => _properties;
     }
 }

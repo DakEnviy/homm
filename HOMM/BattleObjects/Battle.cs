@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using HOMM.Events;
 using HOMM.Objects;
 
 namespace HOMM.BattleObjects
@@ -128,9 +129,15 @@ namespace HOMM.BattleObjects
             {
                 stack.SetDefended(false);
                 stack.SetWaiting(false);
+                stack.SetAnswered(false);
             }
 
             _currentStacks = SortStacks(aliveStacks);
+
+            foreach (var stack in _currentStacks)
+            {
+                stack.Round();
+            }
 
             ++_round;
         }
@@ -170,17 +177,47 @@ namespace HOMM.BattleObjects
                 throw new InvalidOperationException("You cant attack your own units");
             }
 
-            target.Damage(CalcDamageHitPoints(source, target));
+            var hitPoints = CalcDamageHitPoints(source, target);
+            
+            // Fire before attack event
+            var beforeAttackEventArgs = new BeforeAttackEventArgs(source, target, hitPoints);
+            EventBus.OnBeforeAttack(this, beforeAttackEventArgs);
+            if (beforeAttackEventArgs.Cancel) return;
+
+            hitPoints = beforeAttackEventArgs.HitPoints;
+
+            target.Damage(hitPoints);
 
             if (target.IsAlive() && !target.IsAnswered())
             {
-                source.Damage(CalcDamageHitPoints(target, source));
+                var answerHitPoints = CalcDamageHitPoints(target, source);
+            
+                // Fire before answer event
+                var beforeAnswerEventArgs = new BeforeAnswerEventArgs(source, target, answerHitPoints);
+                EventBus.OnBeforeAnswer(this, beforeAnswerEventArgs);
+                
+                if (!beforeAnswerEventArgs.Cancel)
+                {
+                    answerHitPoints = beforeAnswerEventArgs.HitPoints;
+                                    
+                    source.Damage(answerHitPoints);
+                    target.SetAnswered(beforeAnswerEventArgs.IsAnswered);
+                    
+                    // Fire after answer event
+                    EventBus.OnAfterAnswer(this, new AfterAnswerEventArgs(source, target, hitPoints, beforeAnswerEventArgs.IsAnswered));
+                }
             }
 
+            // Fire after attack event
+            EventBus.OnAfterAttack(this, new AfterAttackEventArgs(source, target, hitPoints));
+                
             NextTurn();
         }
 
-        public void UseSkill( /* Skill */) {}
+        public void UseSkill(string skillKey)
+        {
+            
+        }
 
         public void Wait()
         {
