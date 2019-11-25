@@ -151,8 +151,8 @@ namespace HOMM.Tests
             BattleUnitsStack battleStack1 = battle.GetStacks()[0];
             BattleUnitsStack battleStack3 = battle.GetStacks()[2];
             
-            battleStack1.Waiting();
-            battleStack3.Defended();
+            battleStack1.SetWaiting(true);
+            battleStack3.SetDefended(true);
 
             Assert.AreEqual(1, battle.GetRound());
             Assert.IsTrue(battleStack1.IsWaiting());

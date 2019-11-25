@@ -39,12 +39,30 @@ namespace HOMM.BattleObjects
 
     public class Battle
     {
+        private static readonly Random Random = new Random();
+        
         public static IList<BattleUnitsStack> SortStacks(IList<BattleUnitsStack> stacks) =>
             stacks
                 .OrderBy(stack => stack, InitiativeComparer.GetInstance())
                 .ToList();
 
-        private readonly Random _random = new Random();
+        public static ushort CalcDamageHitPoints(BattleUnitsStack source, BattleUnitsStack target)
+        {
+            var amount = source.GetAmount();
+            var (minDamage, maxDamage) = source.GetDamage();
+            var attack = source.GetAttack();
+            var defence = target.GetDefence();
+
+            var minHitPoints = attack > defence
+                ? amount * minDamage * (1 + 0.05 * (attack - defence))
+                : amount * minDamage / (1 + 0.05 * (defence - attack));
+            var maxHitPoints = attack > defence
+                ? amount * maxDamage * (1 + 0.05 * (attack - defence))
+                : amount * maxDamage / (1 + 0.05 * (defence - attack));
+
+            return (ushort) Math.Round(minHitPoints + Random.NextDouble() * (maxHitPoints - minHitPoints));
+        }
+
 
         private readonly BattleArmy _attacker;
         private readonly BattleArmy _target;
@@ -108,8 +126,8 @@ namespace HOMM.BattleObjects
 
             foreach (var stack in aliveStacks)
             {
-                stack.NotDefended();
-                stack.NotWaiting();
+                stack.SetDefended(false);
+                stack.SetWaiting(false);
             }
 
             _currentStacks = SortStacks(aliveStacks);
@@ -152,21 +170,12 @@ namespace HOMM.BattleObjects
                 throw new InvalidOperationException("You cant attack your own units");
             }
 
-            var amount = source.GetAmount();
-            var (minDamage, maxDamage) = source.GetDamage();
-            var attack = source.GetAttack();
-            var defence = target.GetDefence();
+            target.Damage(CalcDamageHitPoints(source, target));
 
-            var minHitPoints = attack > defence
-                ? amount * minDamage * (1 + 0.05 * (attack - defence))
-                : amount * minDamage / (1 + 0.05 * (defence - attack));
-            var maxHitPoints = attack > defence
-                ? amount * maxDamage * (1 + 0.05 * (attack - defence))
-                : amount * maxDamage / (1 + 0.05 * (defence - attack));
-
-            var hitPoints = (ushort) Math.Round(minHitPoints + _random.NextDouble() * (maxHitPoints - minHitPoints));
-
-            target.Damage(hitPoints);
+            if (target.IsAlive() && !target.IsAnswered())
+            {
+                source.Damage(CalcDamageHitPoints(target, source));
+            }
 
             NextTurn();
         }
@@ -177,7 +186,7 @@ namespace HOMM.BattleObjects
         {
             var stack = GetCurrentStack();
 
-            stack.Waiting();
+            stack.SetWaiting(true);
             _currentStacks.Add(stack);
 
             NextTurn();
@@ -187,7 +196,7 @@ namespace HOMM.BattleObjects
         {
             var stack = GetCurrentStack();
 
-            stack.Defended();
+            stack.SetDefended(true);
             // TODO: to manager
             stack.SetDefence((int) (stack.GetDefence() * 1.3));
 

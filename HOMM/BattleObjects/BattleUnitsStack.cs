@@ -18,6 +18,7 @@ namespace HOMM.BattleObjects
 
         private bool _isDefended;
         private bool _isWaiting;
+        private bool _isAnswered;
 
         public BattleUnitsStack(UnitsStack stack, BattleArmy army)
         {
@@ -29,6 +30,7 @@ namespace HOMM.BattleObjects
 
             _isDefended = false;
             _isWaiting = false;
+            _isAnswered = false;
         }
 
         public void RestoreFromBaseStack()
@@ -147,26 +149,23 @@ namespace HOMM.BattleObjects
 
         public bool IsDefended() => _isDefended;
 
-        public void Defended()
+        public void SetDefended(bool isDefended)
         {
-            _isDefended = true;
-        }
-
-        public void NotDefended()
-        {
-            _isDefended = false;
+            _isDefended = isDefended;
         }
 
         public bool IsWaiting() => _isWaiting;
 
-        public void Waiting()
+        public void SetWaiting(bool isWaiting)
         {
-            _isWaiting = true;
+            _isWaiting = isWaiting;
         }
+        
+        public bool IsAnswered() => _isAnswered;
 
-        public void NotWaiting()
+        public void SetAnswered(bool isAnswered)
         {
-            _isWaiting = false;
+            _isAnswered = isAnswered;
         }
     }
 }
