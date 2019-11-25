@@ -10,6 +10,8 @@ namespace HOMM.BattleObjects
         private readonly UnitsStack _baseStack;
         private readonly Unit _baseUnit;
         private readonly BattleArmy _army;
+        
+        private readonly IList<BattleUnitsStackMod> _mods;
 
         private int _amount;
         private int _topHitPoints;
@@ -21,8 +23,6 @@ namespace HOMM.BattleObjects
         private bool _isDefended;
         private bool _isWaiting;
         private bool _isAnswered;
-
-        private IList<BattleUnitsStackMod> _mods;
 
         public BattleUnitsStack(UnitsStack stack, BattleArmy army)
         {

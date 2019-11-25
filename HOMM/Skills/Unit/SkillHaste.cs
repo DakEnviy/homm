@@ -5,9 +5,9 @@ namespace HOMM.Skills.Unit
 {
     public class SkillHaste : Skill
     {
-        public SkillHaste(string key) : base(key) {}
+        public SkillHaste() : base("haste", SkillSourceType.Stack, SkillTargetType.Stack) {}
 
-        public void Use(BattleUnitsStack target)
+        public override void Use(BattleUnitsStack source, BattleUnitsStack target)
         {
             target.AddMod(new BattleUnitsStackModHaste(target));
         }

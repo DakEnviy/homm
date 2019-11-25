@@ -1,45 +1,79 @@
 using System;
 using System.Collections.Generic;
-using HOMM.Skills.Unit;
 
 namespace HOMM.BattleObjects
 {
-    public class Skill
+    public enum SkillSourceType
     {
-        public static Dictionary<string, Skill> Skills;
+        Army,
+        Stack
+    }
+    
+    public enum SkillTargetType
+    {
+        Battle,
+        Army,
+        Stacks,
+        Stack
+    }
 
-        public static void RegisterSkill(string key, Skill skill)
-        {
-            if (Skills.ContainsKey(key))
-            {
-                throw new ArgumentException($"Skill with key '{key}' already has");
-            }
-            
-            Skills.Add(key, skill);
-        }
-
-        public static bool UnregisterSkill(string key)
-        {
-            return Skills.Remove(key);
-        }
-
-        public static T GetSkill<T>(string key) where T : Skill
-        {
-            return (T) Skills[key];
-        }
-
-        static Skill()
-        {
-            RegisterSkill("haste", new SkillHaste("haste"));
-        }
-
+    public abstract class Skill
+    {
         private readonly string _key;
+        private readonly SkillSourceType _sourceType;
+        private readonly SkillTargetType _targetType;
 
-        public Skill(string key)
+        public Skill(string key, SkillSourceType sourceType, SkillTargetType targetType)
         {
             _key = key;
+            _sourceType = sourceType;
+            _targetType = targetType;
+        }
+
+        public virtual void Use(BattleArmy source, Battle target)
+        {
+            throw new NotImplementedException();
         }
         
+        public virtual void Use(BattleArmy source, BattleArmy target)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public virtual void Use(BattleArmy source, IList<BattleUnitsStack> targets)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public virtual void Use(BattleArmy source, BattleUnitsStack target)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public virtual void Use(BattleUnitsStack source, Battle target)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public virtual void Use(BattleUnitsStack source, BattleArmy target)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public virtual void Use(BattleUnitsStack source, IList<BattleUnitsStack> targets)
+        {
+            throw new NotImplementedException();
+        }
+        
+        public virtual void Use(BattleUnitsStack source, BattleUnitsStack target)
+        {
+            throw new NotImplementedException();
+        }
+
         public string GetKey() => _key;
+        
+        public SkillSourceType GetSourceType() => _sourceType;
+        
+        public SkillTargetType GetTargetType() => _targetType;
     }
 }

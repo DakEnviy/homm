@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HOMM.Events;
 using HOMM.Objects;
+using HOMM.Utils;
 
 namespace HOMM.BattleObjects
 {
@@ -13,57 +14,12 @@ namespace HOMM.BattleObjects
         Ended
     }
 
-    public class InitiativeComparer : IComparer<BattleUnitsStack>
-    {
-        private static InitiativeComparer _instance;
-
-        public static InitiativeComparer GetInstance() =>
-            _instance ?? (_instance = new InitiativeComparer());
-        
-        public int Compare(BattleUnitsStack x, BattleUnitsStack y)
-        {
-            if (x == null) throw new ArgumentNullException(nameof(x));
-            if (y == null) throw new ArgumentNullException(nameof(y));
-
-            if (x.IsWaiting() && !y.IsWaiting()) return 1;
-            if (!x.IsWaiting() && y.IsWaiting()) return -1;
-
-            var delta = x.GetInitiative() - y.GetInitiative();
-            var factor = x.IsWaiting() ? 1 : -1;
-
-            var res = Math.Abs(delta) > 0.001F ? delta > 0 ? 1 : -1 : 0;
-            if (res == 0) res = x.GetArmy().IsAttacker() ? 1 : -1;
-
-            return res * factor;
-        }
-    }
-
     public class Battle
     {
-        private static readonly Random Random = new Random();
-        
         public static IList<BattleUnitsStack> SortStacks(IList<BattleUnitsStack> stacks) =>
             stacks
                 .OrderBy(stack => stack, InitiativeComparer.GetInstance())
                 .ToList();
-
-        public static ushort CalcDamageHitPoints(BattleUnitsStack source, BattleUnitsStack target)
-        {
-            var amount = source.GetAmount();
-            var (minDamage, maxDamage) = source.GetDamage();
-            var attack = source.GetAttack();
-            var defence = target.GetDefence();
-
-            var minHitPoints = attack > defence
-                ? amount * minDamage * (1 + 0.05 * (attack - defence))
-                : amount * minDamage / (1 + 0.05 * (defence - attack));
-            var maxHitPoints = attack > defence
-                ? amount * maxDamage * (1 + 0.05 * (attack - defence))
-                : amount * maxDamage / (1 + 0.05 * (defence - attack));
-
-            return (ushort) Math.Round(minHitPoints + Random.NextDouble() * (maxHitPoints - minHitPoints));
-        }
-
 
         private readonly BattleArmy _attacker;
         private readonly BattleArmy _target;
@@ -177,7 +133,7 @@ namespace HOMM.BattleObjects
                 throw new InvalidOperationException("You cant attack your own units");
             }
 
-            var hitPoints = CalcDamageHitPoints(source, target);
+            var hitPoints = DamageUtils.CalcDamageHitPoints(source, target);
             
             // Fire before attack event
             var beforeAttackEventArgs = new BeforeAttackEventArgs(source, target, hitPoints);
@@ -190,7 +146,7 @@ namespace HOMM.BattleObjects
 
             if (target.IsAlive() && !target.IsAnswered())
             {
-                var answerHitPoints = CalcDamageHitPoints(target, source);
+                var answerHitPoints = DamageUtils.CalcDamageHitPoints(target, source);
             
                 // Fire before answer event
                 var beforeAnswerEventArgs = new BeforeAnswerEventArgs(source, target, answerHitPoints);
@@ -213,8 +169,86 @@ namespace HOMM.BattleObjects
                 
             NextTurn();
         }
-
-        public void UseSkill(/* Skill */) {}
+        
+        public void UseSkill(Skill skill)
+        {
+            if (skill.GetTargetType() != SkillTargetType.Battle)
+            {
+                throw new Exception($"Skill have target type: '${skill.GetSourceType()}', but you try to use skill to battle");
+            }
+            
+            switch (skill.GetSourceType())
+            {
+                case SkillSourceType.Army:
+                    skill.Use(GetCurrentArmy(), this);
+                    break;
+                case SkillSourceType.Stack:
+                    skill.Use(GetCurrentStack(), this);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        
+        public void UseSkill(Skill skill, BattleArmy target)
+        {
+            if (skill.GetTargetType() != SkillTargetType.Army)
+            {
+                throw new Exception($"Skill have target type: '${skill.GetSourceType()}', but you try to use skill to army");
+            }
+            
+            switch (skill.GetSourceType())
+            {
+                case SkillSourceType.Army:
+                    skill.Use(GetCurrentArmy(), target);
+                    break;
+                case SkillSourceType.Stack:
+                    skill.Use(GetCurrentStack(), target);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        
+        public void UseSkill(Skill skill, IList<BattleUnitsStack> target)
+        {
+            if (skill.GetTargetType() != SkillTargetType.Stacks)
+            {
+                throw new Exception($"Skill have target type: '${skill.GetSourceType()}', but you try to use skill to stacks");
+            }
+            
+            switch (skill.GetSourceType())
+            {
+                case SkillSourceType.Army:
+                    skill.Use(GetCurrentArmy(), target);
+                    break;
+                case SkillSourceType.Stack:
+                    skill.Use(GetCurrentStack(), target);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+        
+        public void UseSkill(Skill skill, BattleUnitsStack target)
+        {
+            if (skill.GetTargetType() != SkillTargetType.Stack)
+            {
+                throw new Exception($"Skill have target type: '${skill.GetSourceType()}', but you try to use skill to stack");
+            }
+            
+            switch (skill.GetSourceType())
+            {
+                case SkillSourceType.Army:
+                    skill.Use(GetCurrentArmy(), target);
+                    break;
+                case SkillSourceType.Stack:
+                    skill.Use(GetCurrentStack(), target);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
 
         public void Wait()
         {
@@ -231,7 +265,7 @@ namespace HOMM.BattleObjects
             var stack = GetCurrentStack();
 
             stack.SetDefended(true);
-            // TODO: to manager
+            // TODO: to modificator
             stack.SetDefence((int) (stack.GetDefence() * 1.3));
 
             NextTurn();

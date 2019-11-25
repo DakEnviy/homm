@@ -2,7 +2,7 @@ using HOMM.BattleObjects;
 
 namespace HOMM.Objects
 {
-    public class UnitProperty
+    public abstract class UnitProperty
     {
         public virtual BattleUnitsStackMod GetMod(BattleUnitsStack stack) => null;
 

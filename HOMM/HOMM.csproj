@@ -57,11 +57,14 @@
     <Compile Include="Objects\UnitsStack.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Skills\Skills.cs" />
     <Compile Include="Skills\Unit\SkillHaste.cs" />
     <Compile Include="UnitProperties\UnitPropertyShooter.cs" />
     <Compile Include="UnitProperties\UnitPropertySkillHaste.cs" />
     <Compile Include="Units\UnitAngel.cs" />
     <Compile Include="Units\UnitSkeleton.cs" />
+    <Compile Include="Utils\DamageUtils.cs" />
+    <Compile Include="Utils\InitiativeList.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
