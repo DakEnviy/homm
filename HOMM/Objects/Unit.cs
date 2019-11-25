@@ -17,20 +17,6 @@ namespace HOMM.Objects
         Lich
     }
 
-    public enum UnitProperty
-    {
-        [Description("Unlimited Retaliation")]
-        UnlimitedRetaliation,
-        ImmuneToFire,
-        [Description("Shooter1")]
-        Shooter,
-        Undead,
-        AccurateShot,
-        SplashDamage,
-        Suffered,
-        Forceful
-    }
-    
     public class Unit
     {
         private readonly UnitType _type;
@@ -39,7 +25,6 @@ namespace HOMM.Objects
         private readonly int _defence;
         private readonly (int, int) _damage;
         private readonly float _initiative;
-        private readonly ISet<UnitProperty> _properties;
 
         public Unit(UnitType type, int hitPoints, int attack, int defence, (int, int) damage, float initiative)
         {
