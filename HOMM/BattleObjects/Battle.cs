@@ -121,6 +121,7 @@ namespace HOMM.BattleObjects
             if (TryToStop()) return;
             
             _currentStacks.RemoveAt(0);
+            _currentStacks = _currentStacks.Where(stack => stack.IsAlive()).ToList();
 
             if (_currentStacks.Count == 0)
             {
