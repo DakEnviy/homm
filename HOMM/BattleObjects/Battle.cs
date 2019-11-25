@@ -214,10 +214,7 @@ namespace HOMM.BattleObjects
             NextTurn();
         }
 
-        public void UseSkill(string skillKey)
-        {
-            
-        }
+        public void UseSkill(/* Skill */) {}
 
         public void Wait()
         {
