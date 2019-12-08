@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OneOf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\OneOf.2.1.151\lib\net45\OneOf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -45,10 +49,10 @@
     <Compile Include="BattleObjects\Skill.cs" />
     <Compile Include="BattleUnitsStackMods\Property\BattleUnitsStackModShooter.cs" />
     <Compile Include="BattleUnitsStackMods\Skill\BattleUnitsStackModHaste.cs" />
-    <Compile Include="Events\AfterAnswerEventArgs.cs" />
-    <Compile Include="Events\AfterAttackEventArgs.cs" />
-    <Compile Include="Events\BeforeAnswerEventArgs.cs" />
-    <Compile Include="Events\BeforeAttackEventArgs.cs" />
+    <Compile Include="Events\Attack\AfterAnswerEventArgs.cs" />
+    <Compile Include="Events\Attack\AfterAttackEventArgs.cs" />
+    <Compile Include="Events\Attack\BeforeAnswerEventArgs.cs" />
+    <Compile Include="Events\Attack\BeforeAttackEventArgs.cs" />
     <Compile Include="Events\CancelEventArgs.cs" />
     <Compile Include="Events\EventBus.cs" />
     <Compile Include="Objects\Army.cs" />
@@ -64,7 +68,10 @@
     <Compile Include="Units\UnitAngel.cs" />
     <Compile Include="Units\UnitSkeleton.cs" />
     <Compile Include="Utils\DamageUtils.cs" />
-    <Compile Include="Utils\InitiativeList.cs" />
+    <Compile Include="Utils\InitiativeUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

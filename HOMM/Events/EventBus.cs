@@ -1,4 +1,5 @@
 using System;
+using HOMM.Events.Attack;
 
 namespace HOMM.Events
 {

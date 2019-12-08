@@ -7,7 +7,5 @@ namespace HOMM.Events
         public bool Cancel { get; set; }
 
         public CancelEventArgs() {}
-
-        public CancelEventArgs(bool cancel) => Cancel = cancel;
     }
 }

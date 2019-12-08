@@ -1,5 +1,6 @@
 using HOMM.BattleObjects;
 using HOMM.Events;
+using HOMM.Events.Attack;
 
 namespace HOMM.BattleUnitsStackMods.Property
 {

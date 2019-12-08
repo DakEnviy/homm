@@ -31,10 +31,6 @@ namespace HOMM.BattleObjects
             _army = army;
 
             RestoreFromBaseStack();
-
-            _isDefended = false;
-            _isWaiting = false;
-            _isAnswered = false;
             
             _mods = new List<BattleUnitsStackMod>();
 
@@ -49,6 +45,7 @@ namespace HOMM.BattleObjects
         {
             SetDefaultHitPoints();
             SetDefaultParams();
+            SetDefaultStates();
         }
 
         public void SetDefaultHitPoints()
@@ -63,6 +60,13 @@ namespace HOMM.BattleObjects
             _defence = _baseUnit.GetDefence();
             _damage = _baseUnit.GetDamage();
             _initiative = _baseUnit.GetInitiative();
+        }
+
+        public void SetDefaultStates()
+        {
+            _isDefended = false;
+            _isWaiting = false;
+            _isAnswered = false;
         }
 
         public void Round()

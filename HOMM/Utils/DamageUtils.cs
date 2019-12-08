@@ -23,5 +23,14 @@ namespace HOMM.Utils
 
             return (ushort) Math.Round(minHitPoints + Random.NextDouble() * (maxHitPoints - minHitPoints));
         }
+
+        // Warming up Random
+        static DamageUtils()
+        {
+            var _ = Random.NextDouble();
+            var __ = Random.NextDouble();
+            var ___ = Random.NextDouble();
+            var ____ = Random.NextDouble();
+        }
     }
 }

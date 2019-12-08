@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HOMM.BattleObjects;
 
 namespace HOMM.Utils
@@ -27,5 +28,13 @@ namespace HOMM.Utils
 
             return res * factor;
         }
+    }
+
+    public static class InitiativeUtils
+    {
+        public static IList<BattleUnitsStack> SortStacks(IList<BattleUnitsStack> stacks) =>
+            stacks
+                .OrderBy(stack => stack, InitiativeComparer.GetInstance())
+                .ToList();
     }
 }

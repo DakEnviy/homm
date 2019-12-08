@@ -1,12 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OneOf;
 using HOMM.Events;
+using HOMM.Events.Attack;
 using HOMM.Objects;
 using HOMM.Utils;
 
 namespace HOMM.BattleObjects
 {
+    using SkillSource = OneOf<BattleArmy, BattleUnitsStack>;
+    using SkillTarget = OneOf<Battle, BattleArmy, IList<BattleUnitsStack>, BattleUnitsStack>;
+
     public enum BattleState
     {
         None,
@@ -16,11 +21,6 @@ namespace HOMM.BattleObjects
 
     public class Battle
     {
-        public static IList<BattleUnitsStack> SortStacks(IList<BattleUnitsStack> stacks) =>
-            stacks
-                .OrderBy(stack => stack, InitiativeComparer.GetInstance())
-                .ToList();
-
         private readonly BattleArmy _attacker;
         private readonly BattleArmy _target;
 
@@ -47,7 +47,7 @@ namespace HOMM.BattleObjects
             _state = BattleState.InGame;
             _round = 0;
             _winner = null;
-            
+
             NextRound();
         }
 
@@ -73,7 +73,7 @@ namespace HOMM.BattleObjects
 
                 return true;
             }
-            
+
             return false;
         }
 
@@ -83,12 +83,10 @@ namespace HOMM.BattleObjects
 
             foreach (var stack in aliveStacks)
             {
-                stack.SetDefended(false);
-                stack.SetWaiting(false);
-                stack.SetAnswered(false);
+                stack.SetDefaultStates();
             }
 
-            _currentStacks = SortStacks(aliveStacks);
+            _currentStacks = InitiativeUtils.SortStacks(aliveStacks);
 
             foreach (var stack in _currentStacks)
             {
@@ -101,7 +99,7 @@ namespace HOMM.BattleObjects
         public void NextTurn()
         {
             if (TryToStop()) return;
-            
+
             _currentStacks.RemoveAt(0);
             _currentStacks = _currentStacks.Where(stack => stack.IsAlive()).ToList();
 
@@ -112,7 +110,7 @@ namespace HOMM.BattleObjects
                 return;
             }
 
-            _currentStacks = SortStacks(_currentStacks);
+            _currentStacks = InitiativeUtils.SortStacks(_currentStacks);
         }
 
         public IList<BattleUnitsStack> GetStacks() =>
@@ -134,7 +132,7 @@ namespace HOMM.BattleObjects
             }
 
             var hitPoints = DamageUtils.CalcDamageHitPoints(source, target);
-            
+
             // Fire before attack event
             var beforeAttackEventArgs = new BeforeAttackEventArgs(source, target, hitPoints);
             EventBus.OnBeforeAttack(this, beforeAttackEventArgs);
@@ -144,110 +142,36 @@ namespace HOMM.BattleObjects
 
             target.Damage(hitPoints);
 
+            // Fire after attack event
+            EventBus.OnAfterAttack(this, new AfterAttackEventArgs(source, target, hitPoints));
+
             if (target.IsAlive() && !target.IsAnswered())
             {
                 var answerHitPoints = DamageUtils.CalcDamageHitPoints(target, source);
-            
+
                 // Fire before answer event
                 var beforeAnswerEventArgs = new BeforeAnswerEventArgs(source, target, answerHitPoints);
                 EventBus.OnBeforeAnswer(this, beforeAnswerEventArgs);
-                
+
                 if (!beforeAnswerEventArgs.Cancel)
                 {
                     answerHitPoints = beforeAnswerEventArgs.HitPoints;
-                                    
+
                     source.Damage(answerHitPoints);
                     target.SetAnswered(beforeAnswerEventArgs.IsAnswered);
-                    
+
                     // Fire after answer event
-                    EventBus.OnAfterAnswer(this, new AfterAnswerEventArgs(source, target, hitPoints, beforeAnswerEventArgs.IsAnswered));
+                    EventBus.OnAfterAnswer(this,
+                        new AfterAnswerEventArgs(source, target, hitPoints, beforeAnswerEventArgs.IsAnswered));
                 }
             }
 
-            // Fire after attack event
-            EventBus.OnAfterAttack(this, new AfterAttackEventArgs(source, target, hitPoints));
-                
             NextTurn();
         }
-        
-        public void UseSkill(Skill skill)
+
+        public void UseSkill(Skill skill, SkillSource source, SkillTarget target)
         {
-            if (skill.GetTargetType() != SkillTargetType.Battle)
-            {
-                throw new Exception($"Skill have target type: '${skill.GetSourceType()}', but you try to use skill to battle");
-            }
-            
-            switch (skill.GetSourceType())
-            {
-                case SkillSourceType.Army:
-                    skill.Use(GetCurrentArmy(), this);
-                    break;
-                case SkillSourceType.Stack:
-                    skill.Use(GetCurrentStack(), this);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-        
-        public void UseSkill(Skill skill, BattleArmy target)
-        {
-            if (skill.GetTargetType() != SkillTargetType.Army)
-            {
-                throw new Exception($"Skill have target type: '${skill.GetSourceType()}', but you try to use skill to army");
-            }
-            
-            switch (skill.GetSourceType())
-            {
-                case SkillSourceType.Army:
-                    skill.Use(GetCurrentArmy(), target);
-                    break;
-                case SkillSourceType.Stack:
-                    skill.Use(GetCurrentStack(), target);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-        
-        public void UseSkill(Skill skill, IList<BattleUnitsStack> target)
-        {
-            if (skill.GetTargetType() != SkillTargetType.Stacks)
-            {
-                throw new Exception($"Skill have target type: '${skill.GetSourceType()}', but you try to use skill to stacks");
-            }
-            
-            switch (skill.GetSourceType())
-            {
-                case SkillSourceType.Army:
-                    skill.Use(GetCurrentArmy(), target);
-                    break;
-                case SkillSourceType.Stack:
-                    skill.Use(GetCurrentStack(), target);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
-        
-        public void UseSkill(Skill skill, BattleUnitsStack target)
-        {
-            if (skill.GetTargetType() != SkillTargetType.Stack)
-            {
-                throw new Exception($"Skill have target type: '${skill.GetSourceType()}', but you try to use skill to stack");
-            }
-            
-            switch (skill.GetSourceType())
-            {
-                case SkillSourceType.Army:
-                    skill.Use(GetCurrentArmy(), target);
-                    break;
-                case SkillSourceType.Stack:
-                    skill.Use(GetCurrentStack(), target);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            skill.Use(source, target);
         }
 
         public void Wait()

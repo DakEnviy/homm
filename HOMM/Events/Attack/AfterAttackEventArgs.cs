@@ -1,21 +1,19 @@
 using System;
 using HOMM.BattleObjects;
 
-namespace HOMM.Events
+namespace HOMM.Events.Attack
 {
-    public class AfterAnswerEventArgs : EventArgs
+    public class AfterAttackEventArgs : EventArgs
     {
         public BattleUnitsStack Source { get; }
         public BattleUnitsStack Target { get; }
         public ushort HitPoints { get; }
-        public bool IsAnswered { get; }
         
-        public AfterAnswerEventArgs(BattleUnitsStack source, BattleUnitsStack target, ushort hitPoints, bool isAnswered)
+        public AfterAttackEventArgs(BattleUnitsStack source, BattleUnitsStack target, ushort hitPoints)
         {
             Source = source;
             Target = target;
             HitPoints = hitPoints;
-            IsAnswered = isAnswered;
         }
     }
 }
