@@ -10,7 +10,6 @@ using OneOf;
 
 namespace HOMM.BattleObjects
 {
-    using SkillSource = OneOf<BattleArmy, BattleUnitsStack>;
     using SkillTarget = OneOf<Battle, BattleArmy, IList<BattleUnitsStack>, BattleUnitsStack>;
 
     public enum BattleState
@@ -175,14 +174,14 @@ namespace HOMM.BattleObjects
             NextTurn();
         }
 
-        public void UseSkill(Skill skill, SkillTarget target)
+        public bool UseSkill(Skill skill, SkillTarget target)
         {
-            SkillSource source;
-
+            bool result;
+            
             switch (skill.GetSourceType())
             {
                 case SkillSourceType.Army:
-                    source = GetCurrentArmy();
+                    result = skill.Use(GetCurrentArmy(), target);
                     break;
                 case SkillSourceType.Stack:
                     var stack = GetCurrentStack();
@@ -191,16 +190,19 @@ namespace HOMM.BattleObjects
                     {
                         throw new ArgumentException("Unit doesnt have this skill");
                     }
-                    
-                    source = stack;
+
+                    result = skill.Use(stack, target);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(skill.GetSourceType), skill.GetSourceType(), "sourceType is broken");
             }
 
-            skill.Use(source, target);
+            if (result)
+            {
+                NextTurn();
+            }
 
-            NextTurn();
+            return result;
         }
 
         public void Wait()

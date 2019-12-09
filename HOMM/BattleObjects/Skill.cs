@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using OneOf;
 
 namespace HOMM.BattleObjects
 {
-    using SkillSource = OneOf<BattleArmy, BattleUnitsStack>;
     using SkillTarget = OneOf<Battle, BattleArmy, IList<BattleUnitsStack>, BattleUnitsStack>;
 
     public enum SkillSourceType
@@ -32,14 +30,6 @@ namespace HOMM.BattleObjects
             _name = name;
             _sourceType = sourceType;
             _targetType = targetType;
-        }
-
-        public bool Use(SkillSource source, SkillTarget target)
-        {
-            return source.Match(
-                army => Use(army, target),
-                stack => Use(stack, target)
-            );
         }
 
         public bool Use(BattleArmy source, SkillTarget target)

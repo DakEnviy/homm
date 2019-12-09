@@ -11,6 +11,7 @@ namespace HOMM.Mod.Skills.BattleUnitsStack
         public override bool Use(BattleObjects.BattleUnitsStack source, BattleObjects.BattleUnitsStack target)
         {
             if (!target.ContainsMod(typeof(BattleUnitsStackModUndead))) return false;
+            if (source == target) return false;
             if (source.GetArmy() != target.GetArmy()) return false;
             
             target.Resurrect((ushort) (source.GetAmount() * 50));
