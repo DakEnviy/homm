@@ -4,9 +4,10 @@
     {
         public static void Main(string[] args)
         {
-            var modLoader = new ModLoader();
-            
-            modLoader.LoadMods();
+            ModLoader.LoadMods();
+            ModLoader.EnableMods();
+            ModLoader.DisableMods();
+            ModLoader.UnloadMods();
         }
     }
 }

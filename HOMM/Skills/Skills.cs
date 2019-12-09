@@ -19,15 +19,9 @@ namespace HOMM.Skills
             Registry.Add(key, skill);
         }
 
-        public static bool UnregisterSkill(string key)
-        {
-            return Registry.Remove(key);
-        }
+        public static bool UnregisterSkill(string key) => Registry.Remove(key);
 
-        public static Skill GetSkill(string key)
-        {
-            return Registry[key];
-        }
+        public static Skill GetSkill(string key) => Registry[key];
 
         static Skills()
         {

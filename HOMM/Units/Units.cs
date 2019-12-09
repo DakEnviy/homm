@@ -18,15 +18,9 @@ namespace HOMM.Units
             Registry.Add(key, unit);
         }
 
-        public static bool UnregisterUnit(string key)
-        {
-            return Registry.Remove(key);
-        }
+        public static bool UnregisterUnit(string key) => Registry.Remove(key);
 
-        public static Unit GetUnit(string key)
-        {
-            return Registry[key];
-        }
+        public static Unit GetUnit(string key) => Registry[key];
 
         static Units()
         {

@@ -1,4 +1,3 @@
-using System;
 using HOMM.BattleObjects;
 using HOMM.Objects;
 using HOMM.Units;

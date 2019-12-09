@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OneOf;
 using HOMM.Events;
 using HOMM.Events.Attack;
 using HOMM.Objects;
 using HOMM.Utils;
+using OneOf;
 
 namespace HOMM.BattleObjects
 {
