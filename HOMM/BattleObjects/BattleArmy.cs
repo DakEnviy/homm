@@ -32,8 +32,8 @@ namespace HOMM.BattleObjects
         public IList<BattleUnitsStack> GetDeadStacks() =>
             _stacks.Where(stack => stack.IsDead()).ToList();
 
-        public IList<BattleUnitsStack> GetStacksByUnitType(UnitType unitType) =>
-            _stacks.Where(stack => stack.GetBaseUnit().GetUnitType() == unitType).ToList();
+        public IList<BattleUnitsStack> GetStacksByUnit(Unit unit) =>
+            _stacks.Where(stack => stack.GetBaseUnit() == unit).ToList();
 
         public bool IsAttacker() => this == _battle.GetAttacker();
         

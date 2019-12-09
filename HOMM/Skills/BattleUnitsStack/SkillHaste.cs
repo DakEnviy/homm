@@ -1,13 +1,11 @@
 using HOMM.BattleObjects;
 using HOMM.BattleUnitsStackMods.Skill;
 
-namespace HOMM.Skills.Unit
+namespace HOMM.Skills.BattleUnitsStack
 {
     public class SkillHaste : Skill
     {
-        public SkillHaste() : base("haste") {}
-
-        public override void Use(BattleUnitsStack source, BattleUnitsStack target)
+        public override void Use(BattleObjects.BattleUnitsStack source, BattleObjects.BattleUnitsStack target)
         {
             target.AddMod(new BattleUnitsStackModHaste(target));
         }

@@ -10,16 +10,14 @@ namespace HOMM.Tests
         [Test]
         public void CreateUnit()
         {
-            UnitType type = UnitType.Hydra;
             const int hitPoints = 10;
             const int attack = 11;
             const int defence = 12;
             (int, int) damage = (5, 4);
             const float initiative = 13.0f;
             
-            Unit unit = new Unit(type, hitPoints, attack, defence, damage, initiative);
+            Unit unit = new Unit(hitPoints, attack, defence, damage, initiative);
 
-            Assert.AreEqual(type, unit.GetUnitType());
             Assert.AreEqual(hitPoints, unit.GetHitPoints());
             Assert.AreEqual(attack, unit.GetAttack());
             Assert.AreEqual(defence, unit.GetDefence());
@@ -30,7 +28,6 @@ namespace HOMM.Tests
         [Test]
         public void CreateUnitAngel()
         {
-            UnitType type = UnitType.Angel;
             const int hitPoints = 180;
             const int attack = 27;
             const int defence = 27;
@@ -39,7 +36,6 @@ namespace HOMM.Tests
             
             Unit unit = new UnitAngel();
 
-            Assert.AreEqual(type, unit.GetUnitType());
             Assert.AreEqual(hitPoints, unit.GetHitPoints());
             Assert.AreEqual(attack, unit.GetAttack());
             Assert.AreEqual(defence, unit.GetDefence());

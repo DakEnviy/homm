@@ -63,9 +63,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Skills\Skills.cs" />
-    <Compile Include="Skills\Unit\SkillHaste.cs" />
+    <Compile Include="Skills\BattleUnitsStack\SkillHaste.cs" />
     <Compile Include="UnitProperties\UnitPropertyShooter.cs" />
     <Compile Include="UnitProperties\UnitPropertySkillHaste.cs" />
+    <Compile Include="Units\Units.cs" />
     <Compile Include="Units\UnitAngel.cs" />
     <Compile Include="Units\UnitSkeleton.cs" />
     <Compile Include="Utils\DamageUtils.cs" />

@@ -9,13 +9,6 @@ namespace HOMM.BattleObjects
 
     public abstract class Skill
     {
-        private readonly string _key;
-
-        public Skill(string key)
-        {
-            _key = key;
-        }
-
         public void Use(SkillSource source, SkillTarget target)
         {
             source.Switch(
@@ -83,7 +76,5 @@ namespace HOMM.BattleObjects
         {
             throw new NotImplementedException();
         }
-
-        public string GetKey() => _key;
     }
 }

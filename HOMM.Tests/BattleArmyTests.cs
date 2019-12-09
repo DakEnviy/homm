@@ -62,8 +62,8 @@ namespace HOMM.Tests
         [Test]
         public void BattleArmy_GetStacksByUnitType()
         {
-            Unit angel = new UnitAngel();
-            Unit skeleton = new UnitSkeleton();
+            Unit angel = Units.Units.GetUnit("angel");
+            Unit skeleton = Units.Units.GetUnit("skeleton");
 
             UnitsStack stack1 = new UnitsStack(angel, 10);
             UnitsStack stack2 = new UnitsStack(angel, 5);
@@ -74,8 +74,8 @@ namespace HOMM.Tests
             Army baseArmy = new Army(stacks);
             BattleArmy army = new BattleArmy(baseArmy, null);
 
-            IList<BattleUnitsStack> angels = army.GetStacksByUnitType(UnitType.Angel);
-            IList<BattleUnitsStack> skeletons = army.GetStacksByUnitType(UnitType.Skeleton);
+            IList<BattleUnitsStack> angels = army.GetStacksByUnit(angel);
+            IList<BattleUnitsStack> skeletons = army.GetStacksByUnit(skeleton);
 
             Assert.AreEqual(2, angels.Count);
             Assert.AreEqual(stack1, angels[0].GetBaseStack());

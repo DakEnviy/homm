@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HOMM.BattleObjects;
-using HOMM.Skills.Unit;
+using HOMM.Skills.BattleUnitsStack;
 
 namespace HOMM.Skills
 {
