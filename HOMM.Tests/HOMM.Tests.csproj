@@ -51,6 +51,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HOMM.Mod\HOMM.Mod.csproj">
+      <Project>{4a779831-8bda-4b36-81e9-66e43ae1c2da}</Project>
+      <Name>HOMM.Mod</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HOMM\HOMM.csproj">
       <Project>{42f41446-b887-4a0f-9208-aad4b773c33c}</Project>
       <Name>HOMM</Name>

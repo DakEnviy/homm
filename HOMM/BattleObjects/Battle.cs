@@ -55,6 +55,11 @@ namespace HOMM.BattleObjects
         public void Stop()
         {
             _state = BattleState.Ended;
+
+            foreach (var stack in GetStacks())
+            {
+                stack.DetachMods();
+            }
         }
 
         public bool TryToStop()
@@ -189,7 +194,7 @@ namespace HOMM.BattleObjects
         {
             var stack = GetCurrentStack();
 
-            stack.AddMod(new BattleUnitsStackModDefend(stack));
+            stack.AddMod(new BattleUnitsStackModDefend(stack), true);
 
             NextTurn();
         }

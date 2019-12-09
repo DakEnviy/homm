@@ -10,7 +10,7 @@ namespace HOMM.Skills.BattleUnitsStack
         
         public override bool Use(BattleObjects.BattleUnitsStack source, BattleObjects.BattleUnitsStack target)
         {
-            target.AddMod(new BattleUnitsStackModHaste(target));
+            target.AddMod(new BattleUnitsStackModHaste(target), true);
 
             return true;
         }

@@ -11,7 +11,7 @@ namespace HOMM.BattleObjects
         private readonly Unit _baseUnit;
         private readonly BattleArmy _army;
         
-        private readonly IList<BattleUnitsStackMod> _mods;
+        private IList<BattleUnitsStackMod> _mods;
 
         private int _amount;
         private int _topHitPoints;
@@ -82,16 +82,42 @@ namespace HOMM.BattleObjects
             UpdateParamsByMods();
         }
 
-        public void AddMod(BattleUnitsStackMod mod)
+        public void AddMod(BattleUnitsStackMod mod, bool updateParams = false)
         {
             mod.Attach();
             _mods.Add(mod);
+
+            if (updateParams)
+            {
+                UpdateParamsByMods();
+            }
         }
 
-        public void RemoveMod(BattleUnitsStackMod mod)
+        public void RemoveMod(BattleUnitsStackMod mod, bool updateParams = false)
         {
             mod.Detach();
             _mods.Remove(mod);
+            
+            if (updateParams)
+            {
+                UpdateParamsByMods();
+            }
+        }
+
+        public void RemoveNonEternalMods()
+        {
+            foreach (var mod in _mods.Where(mod => mod.GetRounds() != -1))
+            {
+                RemoveMod(mod);
+            }
+        }
+
+        public void DetachMods()
+        {
+            foreach (var mod in _mods)
+            {
+                mod.Detach();
+            }
         }
 
         public bool ContainsMod(BattleUnitsStackMod mod) => _mods.Contains(mod);
@@ -141,6 +167,7 @@ namespace HOMM.BattleObjects
                 _topHitPoints = 0;
 
                 SetDefaultParams();
+                RemoveNonEternalMods();
 
                 return;
             }
