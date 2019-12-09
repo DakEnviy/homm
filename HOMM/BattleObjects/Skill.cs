@@ -7,19 +7,42 @@ namespace HOMM.BattleObjects
     using SkillSource = OneOf<BattleArmy, BattleUnitsStack>;
     using SkillTarget = OneOf<Battle, BattleArmy, IList<BattleUnitsStack>, BattleUnitsStack>;
 
+    public enum SkillSourceType
+    {
+        Army,
+        Stack
+    }
+
+    public enum SkillTargetType
+    {
+        Battle,
+        BattleArmy,
+        List,
+        Stack
+    }
+
     public abstract class Skill
     {
-        public void Use(SkillSource source, SkillTarget target)
+        private readonly SkillSourceType _sourceType;
+        private readonly SkillTargetType _targetType;
+
+        public Skill(SkillSourceType sourceType, SkillTargetType targetType)
         {
-            source.Switch(
+            _sourceType = sourceType;
+            _targetType = targetType;
+        }
+
+        public bool Use(SkillSource source, SkillTarget target)
+        {
+            return source.Match(
                 army => Use(army, target),
                 stack => Use(stack, target)
             );
         }
 
-        public void Use(BattleArmy source, SkillTarget target)
+        public bool Use(BattleArmy source, SkillTarget target)
         {
-            target.Switch(
+            return target.Match(
                 battle => Use(source, battle),
                 army => Use(source, army),
                 list => Use(source, list),
@@ -27,9 +50,9 @@ namespace HOMM.BattleObjects
             );
         }
 
-        public void Use(BattleUnitsStack source, SkillTarget target)
+        public bool Use(BattleUnitsStack source, SkillTarget target)
         {
-            target.Switch(
+            return target.Match(
                 battle => Use(source, battle),
                 army => Use(source, army),
                 list => Use(source, list),
@@ -37,44 +60,24 @@ namespace HOMM.BattleObjects
             );
         }
 
-        public virtual void Use(BattleArmy source, Battle target)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual bool Use(BattleArmy source, Battle target) => false;
 
-        public virtual void Use(BattleArmy source, BattleArmy target)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual bool Use(BattleArmy source, BattleArmy target) => false;
 
-        public virtual void Use(BattleArmy source, IList<BattleUnitsStack> targets)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual bool Use(BattleArmy source, IList<BattleUnitsStack> targets) => false;
 
-        public virtual void Use(BattleArmy source, BattleUnitsStack target)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual bool Use(BattleArmy source, BattleUnitsStack target) => false;
 
-        public virtual void Use(BattleUnitsStack source, Battle target)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual bool Use(BattleUnitsStack source, Battle target) => false;
 
-        public virtual void Use(BattleUnitsStack source, BattleArmy target)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual bool Use(BattleUnitsStack source, BattleArmy target) => false;
 
-        public virtual void Use(BattleUnitsStack source, IList<BattleUnitsStack> targets)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual bool Use(BattleUnitsStack source, IList<BattleUnitsStack> targets) => false;
 
-        public virtual void Use(BattleUnitsStack source, BattleUnitsStack target)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual bool Use(BattleUnitsStack source, BattleUnitsStack target) => false;
+
+        public SkillSourceType GetSourceType() => _sourceType;
+        
+        public SkillTargetType GetTargetType() => _targetType;
     }
 }

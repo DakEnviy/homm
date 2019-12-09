@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HOMM.BattleObjects;
+using HOMM.BattleUnitsStackMods.Turn;
 using HOMM.Objects;
 using HOMM.Units;
 using NUnit.Framework;
@@ -152,15 +153,12 @@ namespace HOMM.Tests
             BattleUnitsStack battleStack3 = battle.GetStacks()[2];
             
             battleStack1.SetWaiting(true);
-            battleStack3.SetDefended(true);
 
             Assert.AreEqual(1, battle.GetRound());
             Assert.IsTrue(battleStack1.IsWaiting());
-            Assert.IsTrue(battleStack3.IsDefended());
             battle.NextRound();
             Assert.AreEqual(2, battle.GetRound());
             Assert.IsFalse(battleStack1.IsWaiting());
-            Assert.IsFalse(battleStack3.IsDefended());
         }
 
         [Test]
@@ -319,7 +317,7 @@ namespace HOMM.Tests
             
             Assert.AreEqual(3,battle.GetCurrentStacks().Count);
             battle.Defend();
-            Assert.IsTrue(currentStack.IsDefended());
+            Assert.IsTrue(currentStack.ContainsMod(typeof(BattleUnitsStackModDefend)));
             Assert.AreEqual(35, currentStack.GetDefence());
             Assert.AreEqual(2,battle.GetCurrentStacks().Count);
         }

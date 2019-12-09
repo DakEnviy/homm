@@ -20,7 +20,6 @@ namespace HOMM.BattleObjects
         private (int, int) _damage;
         private float _initiative;
 
-        private bool _isDefended;
         private bool _isWaiting;
         private bool _isAnswered;
 
@@ -64,7 +63,6 @@ namespace HOMM.BattleObjects
 
         public void SetDefaultStates()
         {
-            _isDefended = false;
             _isWaiting = false;
             _isAnswered = false;
         }
@@ -96,10 +94,10 @@ namespace HOMM.BattleObjects
             _mods.Remove(mod);
         }
 
-        public bool ContainsMod(BattleUnitsStackMod mod)
-        {
-            return _mods.Contains(mod);
-        }
+        public bool ContainsMod(BattleUnitsStackMod mod) => _mods.Contains(mod);
+
+        public bool ContainsMod(Type modType)
+            => _mods.Any(iMod => iMod.GetType() == modType);
 
         public void UpdateParamsByMods()
         {
@@ -203,13 +201,6 @@ namespace HOMM.BattleObjects
         public void SetInitiative(float initiative)
         {
             _initiative = initiative;
-        }
-
-        public bool IsDefended() => _isDefended;
-
-        public void SetDefended(bool isDefended)
-        {
-            _isDefended = isDefended;
         }
 
         public bool IsWaiting() => _isWaiting;

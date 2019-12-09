@@ -5,9 +5,14 @@ namespace HOMM.Skills.BattleUnitsStack
 {
     public class SkillHaste : Skill
     {
-        public override void Use(BattleObjects.BattleUnitsStack source, BattleObjects.BattleUnitsStack target)
+        public SkillHaste()
+            : base(SkillSourceType.Stack, SkillTargetType.Stack) {}
+        
+        public override bool Use(BattleObjects.BattleUnitsStack source, BattleObjects.BattleUnitsStack target)
         {
             target.AddMod(new BattleUnitsStackModHaste(target));
+
+            return true;
         }
     }
 }

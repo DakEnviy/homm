@@ -49,6 +49,7 @@
     <Compile Include="BattleObjects\Skill.cs" />
     <Compile Include="BattleUnitsStackMods\Property\BattleUnitsStackModShooter.cs" />
     <Compile Include="BattleUnitsStackMods\Skill\BattleUnitsStackModHaste.cs" />
+    <Compile Include="BattleUnitsStackMods\Turn\BattleUnitsStackModDefend.cs" />
     <Compile Include="Events\Attack\AfterAnswerEventArgs.cs" />
     <Compile Include="Events\Attack\AfterAttackEventArgs.cs" />
     <Compile Include="Events\Attack\BeforeAnswerEventArgs.cs" />

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using HOMM.BattleUnitsStackMods.Turn;
 using HOMM.Events;
 using HOMM.Events.Attack;
 using HOMM.Objects;
@@ -188,9 +189,7 @@ namespace HOMM.BattleObjects
         {
             var stack = GetCurrentStack();
 
-            stack.SetDefended(true);
-            // TODO: to modificator
-            stack.SetDefence((int) (stack.GetDefence() * 1.3));
+            stack.AddMod(new BattleUnitsStackModDefend(stack));
 
             NextTurn();
         }

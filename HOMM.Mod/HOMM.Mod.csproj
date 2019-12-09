@@ -38,8 +38,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BattleUnitsStackMods\Property\BattleUnitsStackModUndead.cs" />
+    <Compile Include="Skills\BattleUnitsStack\SkillResurrect.cs" />
     <Compile Include="TestMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitProperties\UnitPropertySkillResurrect.cs" />
+    <Compile Include="UnitProperties\UnitPropertyUndead.cs" />
+    <Compile Include="Units\UnitLich.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HOMM\HOMM.csproj">
