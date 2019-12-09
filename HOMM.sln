@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HOMM", "HOMM\HOMM.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HOMM.Tests", "HOMM.Tests\HOMM.Tests.csproj", "{7A6DD78D-22C5-4DFF-9B2A-FC3717A77893}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HOMM.Mod", "HOMM.Mod", "{E2A4B695-0139-4872-8A1C-40AC4C7F0D01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HOMM.Mod", "HOMM.Mod\HOMM.Mod.csproj", "{4A779831-8BDA-4B36-81E9-66E43AE1C2DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,12 @@ Global
 		{7A6DD78D-22C5-4DFF-9B2A-FC3717A77893}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A6DD78D-22C5-4DFF-9B2A-FC3717A77893}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A6DD78D-22C5-4DFF-9B2A-FC3717A77893}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A779831-8BDA-4B36-81E9-66E43AE1C2DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A779831-8BDA-4B36-81E9-66E43AE1C2DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A779831-8BDA-4B36-81E9-66E43AE1C2DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A779831-8BDA-4B36-81E9-66E43AE1C2DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4A779831-8BDA-4B36-81E9-66E43AE1C2DA} = {E2A4B695-0139-4872-8A1C-40AC4C7F0D01}
 	EndGlobalSection
 EndGlobal
