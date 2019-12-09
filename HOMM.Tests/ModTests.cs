@@ -66,8 +66,8 @@ namespace HOMM.Tests
             Assert.AreEqual(battleStack3, battle.GetCurrentStack());
             battle.UseSkill(resurrect, battleStack3);
             Assert.AreEqual(battleStack3, battle.GetCurrentStack());
-//            battle.UseSkill(resurrect, battleStack1);
-//            Assert.AreEqual(battleStack3, battle.GetCurrentStack());
+            battle.UseSkill(resurrect, battleStack1);
+            Assert.AreEqual(battleStack3, battle.GetCurrentStack());
             battle.UseSkill(resurrect, battleStack4);
             Assert.AreEqual(530, battleStack4.GetHitPoints());
             
