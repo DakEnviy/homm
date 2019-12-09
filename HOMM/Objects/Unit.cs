@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using HOMM.BattleObjects;
 
 namespace HOMM.Objects
 {
@@ -21,6 +22,20 @@ namespace HOMM.Objects
             _initiative = initiative;
             _properties = properties.ToHashSet();
         }
+
+        public ISet<string> GetSkillNames()
+            => _properties
+                .Select(prop => prop.GetSkill())
+                .Where(skillName => skillName != null)
+                .ToHashSet();
+
+        public bool ContainsSkill(string skillName)
+            => _properties
+                .Select(prop => prop.GetSkill())
+                .Contains(skillName);
+
+        public bool ContainsSkill(Skill skill)
+            => ContainsSkill(skill.GetName());
 
         public int GetHitPoints() => _hitPoints;
 

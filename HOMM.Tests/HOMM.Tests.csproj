@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OneOf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\packages\OneOf.2.1.151\lib\net45\OneOf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -46,6 +50,7 @@
     <Compile Include="BattleArmyTests.cs" />
     <Compile Include="BattleTests.cs" />
     <Compile Include="BattleUnitsStackTests.cs" />
+    <Compile Include="ModTests.cs" />
     <Compile Include="UnitsStackTests.cs" />
     <Compile Include="UnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,6 +64,9 @@
       <Project>{42f41446-b887-4a0f-9208-aad4b773c33c}</Project>
       <Name>HOMM</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

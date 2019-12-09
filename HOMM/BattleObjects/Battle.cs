@@ -175,9 +175,32 @@ namespace HOMM.BattleObjects
             NextTurn();
         }
 
-        public void UseSkill(Skill skill, SkillSource source, SkillTarget target)
+        public void UseSkill(Skill skill, SkillTarget target)
         {
+            SkillSource source;
+
+            switch (skill.GetSourceType())
+            {
+                case SkillSourceType.Army:
+                    source = GetCurrentArmy();
+                    break;
+                case SkillSourceType.Stack:
+                    var stack = GetCurrentStack();
+
+                    if (!stack.GetBaseStack().GetUnit().ContainsSkill(skill))
+                    {
+                        throw new ArgumentException("Unit doesnt have this skill");
+                    }
+                    
+                    source = stack;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(skill.GetSourceType), skill.GetSourceType(), "sourceType is broken");
+            }
+
             skill.Use(source, target);
+
+            NextTurn();
         }
 
         public void Wait()

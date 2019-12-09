@@ -21,6 +21,11 @@ namespace HOMM.Utils
                 ? amount * maxDamage * (1 + 0.05 * (attack - defence))
                 : amount * maxDamage / (1 + 0.05 * (defence - attack));
 
+            if (Environment.GetEnvironmentVariable("is-testing") == "true")
+            {
+                return (ushort) minHitPoints;
+            }
+
             return (ushort) Math.Round(minHitPoints + Random.NextDouble() * (maxHitPoints - minHitPoints));
         }
 

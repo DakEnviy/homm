@@ -23,11 +23,13 @@ namespace HOMM.BattleObjects
 
     public abstract class Skill
     {
+        private readonly string _name;
         private readonly SkillSourceType _sourceType;
         private readonly SkillTargetType _targetType;
 
-        public Skill(SkillSourceType sourceType, SkillTargetType targetType)
+        public Skill(string name, SkillSourceType sourceType, SkillTargetType targetType)
         {
+            _name = name;
             _sourceType = sourceType;
             _targetType = targetType;
         }
@@ -75,6 +77,8 @@ namespace HOMM.BattleObjects
         public virtual bool Use(BattleUnitsStack source, IList<BattleUnitsStack> targets) => false;
 
         public virtual bool Use(BattleUnitsStack source, BattleUnitsStack target) => false;
+
+        public string GetName() => _name;
 
         public SkillSourceType GetSourceType() => _sourceType;
         
