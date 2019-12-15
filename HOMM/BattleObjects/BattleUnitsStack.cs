@@ -70,10 +70,6 @@ namespace HOMM.BattleObjects
         
         public bool IsDead() => _amount == 0;
 
-        public bool IsAlive() => _amount > 0;
-        
-        public bool IsDead() => _amount == 0;
-
         public int GetHitPoints()
         {
             return _amount == 0 ? 0 : (_amount - 1) * _baseUnit.GetHitPoints() + _topHitPoints;
@@ -108,8 +104,6 @@ namespace HOMM.BattleObjects
         public BattleArmy GetArmy() => _army;
 
         public int GetAmount() => _amount;
-        
-        public BattleArmy GetArmy() => _army;
 
         public void SetAmount(int amount)
         {
