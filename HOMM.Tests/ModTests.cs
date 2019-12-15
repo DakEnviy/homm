@@ -15,7 +15,7 @@ namespace HOMM.Tests
         {
             Environment.SetEnvironmentVariable("is-testing", "true");
             
-            HommMod mod = new TestMod();
+            IHommMod mod = new TestMod();
             
             ModLoader.RegisterMod(mod);
             ModLoader.EnableMods();

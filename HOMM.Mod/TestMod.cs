@@ -6,13 +6,13 @@ using HSkills = HOMM.Skills.Skills;
 
 namespace HOMM.Mod
 {
-    public class TestMod : HommMod
+    public class TestMod : IHommMod
     {
-        public override string Name() => "TestMod";
+        public string Name() => "TestMod";
         
-        public override string Version() => "1.0.1";
+        public string Version() => "1.0.1";
         
-        public override void OnEnable()
+        public void OnEnable()
         {
             Console.WriteLine("TestMod enabled");
             
@@ -20,7 +20,7 @@ namespace HOMM.Mod
             HSkills.RegisterSkill("resurrect", new SkillResurrect());
         }
 
-        public override void OnDisable()
+        public void OnDisable()
         {
             Console.WriteLine("TestMod disabled");
             

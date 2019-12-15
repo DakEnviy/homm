@@ -6,24 +6,21 @@ using System.Reflection;
 
 namespace HOMM
 {
-    public abstract class HommMod
+    public interface IHommMod
     {
-        public abstract string Name();
-        
-        public abstract string Version();
-
-        public abstract void OnEnable();
-        
-        public abstract void OnDisable();
+        string Name();
+        string Version();
+        void OnEnable();
+        void OnDisable();
     }
     
     public static class ModLoader
     {
         private const string ModsDir = "mods";
         
-        private static readonly IDictionary<string, HommMod> Mods = new Dictionary<string, HommMod>();
+        private static readonly IDictionary<string, IHommMod> Mods = new Dictionary<string, IHommMod>();
         
-        public static void RegisterMod(HommMod mod)
+        public static void RegisterMod(IHommMod mod)
         {
             var name = mod.Name();
             
@@ -37,10 +34,10 @@ namespace HOMM
 
         public static bool UnregisterMod(string name) => Mods.Remove(name);
 
-        public static HommMod GetMod(string name) => Mods[name];
+        public static IHommMod GetMod(string name) => Mods[name];
 
-        public static IReadOnlyDictionary<string, HommMod> GetMods() =>
-            (IReadOnlyDictionary<string, HommMod>) Mods;
+        public static IReadOnlyDictionary<string, IHommMod> GetMods() =>
+            (IReadOnlyDictionary<string, IHommMod>) Mods;
 
         public static void LoadMods()
         {
@@ -55,9 +52,9 @@ namespace HOMM
             {
                 foreach (var type in modAsm.GetTypes())
                 {
-                    if (!type.IsSubclassOf(typeof(HommMod))) continue;
+                    if (!typeof(IHommMod).IsAssignableFrom(type)) continue;
 
-                    var mod = (HommMod) Activator.CreateInstance(type);
+                    var mod = (IHommMod) Activator.CreateInstance(type);
                     
                     RegisterMod(mod);
                 }
