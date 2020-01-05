@@ -45,6 +45,7 @@
     <Compile Include="UnitProperties\UnitPropertySkillResurrect.cs" />
     <Compile Include="UnitProperties\UnitPropertyUndead.cs" />
     <Compile Include="Units\UnitLich.cs" />
+    <Compile Include="Units\UnitZombie.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HOMM\HOMM.csproj">
