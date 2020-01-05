@@ -6,6 +6,7 @@ namespace HOMM.Objects
 {
     public class Unit
     {
+        private readonly string _name;
         private readonly int _hitPoints;
         private readonly int _attack;
         private readonly int _defence;
@@ -13,8 +14,9 @@ namespace HOMM.Objects
         private readonly float _initiative;
         private readonly ISet<UnitProperty> _properties;
 
-        public Unit(int hitPoints, int attack, int defence, (int, int) damage, float initiative, params UnitProperty[] properties)
+        public Unit(string name, int hitPoints, int attack, int defence, (int, int) damage, float initiative, params UnitProperty[] properties)
         {
+            _name = name;
             _hitPoints = hitPoints;
             _attack = attack;
             _defence = defence;
@@ -36,6 +38,8 @@ namespace HOMM.Objects
 
         public bool ContainsSkill(Skill skill)
             => ContainsSkill(skill.GetName());
+
+        public string GetName() => _name;
 
         public int GetHitPoints() => _hitPoints;
 

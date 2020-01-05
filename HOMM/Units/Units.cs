@@ -8,8 +8,10 @@ namespace HOMM.Units
     {
         public static readonly IDictionary<string, Unit> Registry = new Dictionary<string, Unit>();
 
-        public static void RegisterUnit(string key, Unit unit)
+        public static void RegisterUnit(Unit unit)
         {
+            var key = unit.GetName();
+            
             if (Registry.ContainsKey(key))
             {
                 throw new ArgumentException($"Unit with key '{key}' already has");
@@ -24,8 +26,8 @@ namespace HOMM.Units
 
         static Units()
         {
-            RegisterUnit("angel", new UnitAngel());
-            RegisterUnit("skeleton", new UnitSkeleton());
+            RegisterUnit(new UnitAngel());
+            RegisterUnit(new UnitSkeleton());
         }
     }
 }
