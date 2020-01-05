@@ -1,6 +1,6 @@
 ﻿using System;
-using HOMM.Mod.Units;
 using HOMM.Mod.Skills.BattleUnitsStack;
+using HOMM.Mod.Units;
 using HUnits = HOMM.Units.Units;
 using HSkills = HOMM.Skills.Skills;
 
@@ -16,8 +16,9 @@ namespace HOMM.Mod
         {
             Console.WriteLine("TestMod enabled");
             
-            HUnits.RegisterUnit("lich", new UnitLich());
-            HSkills.RegisterSkill("resurrect", new SkillResurrect());
+            HUnits.RegisterUnit(new UnitLich());
+            HUnits.RegisterUnit(new UnitZombie());
+            HSkills.RegisterSkill(new SkillResurrect());
         }
 
         public void OnDisable()
@@ -25,6 +26,7 @@ namespace HOMM.Mod
             Console.WriteLine("TestMod disabled");
             
             HUnits.UnregisterUnit("lich");
+            HUnits.UnregisterUnit("zombie");
             HSkills.UnregisterSkill("resurrect");
         }
     }
