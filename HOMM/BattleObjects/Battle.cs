@@ -4,6 +4,7 @@ using System.Linq;
 using HOMM.BattleUnitsStackMods.Turn;
 using HOMM.Events;
 using HOMM.Events.Attack;
+using HOMM.Events.Turn;
 using HOMM.Objects;
 using HOMM.Utils;
 using OneOf;
@@ -99,6 +100,9 @@ namespace HOMM.BattleObjects
             }
 
             ++_round;
+            
+            // Fire after turn event
+            EventBus.OnNextTurn(this, new NextTurnEventArgs(this));
         }
 
         public void NextTurn()
@@ -116,6 +120,9 @@ namespace HOMM.BattleObjects
             }
 
             _currentStacks = InitiativeUtils.SortStacks(_currentStacks);
+            
+            // Fire after turn event
+            EventBus.OnNextTurn(this, new NextTurnEventArgs(this));
         }
 
         public IList<BattleUnitsStack> GetStacks() =>
@@ -127,21 +134,20 @@ namespace HOMM.BattleObjects
         public IList<BattleUnitsStack> GetDeadStacks() =>
             _attacker.GetDeadStacks().Concat(_target.GetDeadStacks()).ToList();
 
-        public void Attack(BattleUnitsStack target)
+        public bool Attack(BattleUnitsStack target)
         {
+            if (_state != BattleState.InGame) return false;
+            
             var source = GetCurrentStack();
 
-            if (source.GetArmy() == target.GetArmy())
-            {
-                throw new InvalidOperationException("You cant attack your own units");
-            }
+            if (source.GetArmy() == target.GetArmy()) return false;
 
             var hitPoints = DamageUtils.CalcDamageHitPoints(source, target);
 
             // Fire before attack event
             var beforeAttackEventArgs = new BeforeAttackEventArgs(source, target, hitPoints);
             EventBus.OnBeforeAttack(this, beforeAttackEventArgs);
-            if (beforeAttackEventArgs.Cancel) return;
+            if (beforeAttackEventArgs.Cancel) return false;
 
             hitPoints = beforeAttackEventArgs.HitPoints;
 
@@ -172,10 +178,14 @@ namespace HOMM.BattleObjects
             }
 
             NextTurn();
+            
+            return true;
         }
 
         public bool UseSkill(Skill skill, SkillTarget target)
         {
+            if (_state != BattleState.InGame) return false;
+            
             bool result;
             
             switch (skill.GetSourceType())
@@ -207,6 +217,8 @@ namespace HOMM.BattleObjects
 
         public void Wait()
         {
+            if (_state != BattleState.InGame) return;
+            
             var stack = GetCurrentStack();
 
             stack.SetWaiting(true);
@@ -217,6 +229,8 @@ namespace HOMM.BattleObjects
 
         public void Defend()
         {
+            if (_state != BattleState.InGame) return;
+            
             var stack = GetCurrentStack();
 
             stack.AddMod(new BattleUnitsStackModDefend(stack), true);
@@ -226,6 +240,8 @@ namespace HOMM.BattleObjects
 
         public void Surrender()
         {
+            if (_state != BattleState.InGame) return;
+            
             _winner = GetCurrentArmy() == _attacker ? _target : _attacker;
 
             Stop();
