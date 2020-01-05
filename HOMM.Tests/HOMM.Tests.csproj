@@ -4,11 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{42F41446-B887-4A0F-9208-AAD4B773C33C}</ProjectGuid>
+    <ProjectGuid>{7A6DD78D-22C5-4DFF-9B2A-FC3717A77893}</ProjectGuid>
+    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HOMM</RootNamespace>
-    <AssemblyName>HOMM</AssemblyName>
+    <RootNamespace>HOMM.Tests</RootNamespace>
+    <AssemblyName>HOMM.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,38 +41,29 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb">
+      <HintPath>..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BattleObjects\Battle.cs" />
-    <Compile Include="BattleObjects\BattleArmy.cs" />
-    <Compile Include="BattleObjects\BattleUnitsStack.cs" />
-    <Compile Include="BattleObjects\BattleUnitsStackMod.cs" />
-    <Compile Include="BattleObjects\Skill.cs" />
-    <Compile Include="BattleUnitsStackMods\Property\BattleUnitsStackModShooter.cs" />
-    <Compile Include="BattleUnitsStackMods\Skill\BattleUnitsStackModHaste.cs" />
-    <Compile Include="BattleUnitsStackMods\Turn\BattleUnitsStackModDefend.cs" />
-    <Compile Include="Events\Attack\AfterAnswerEventArgs.cs" />
-    <Compile Include="Events\Attack\AfterAttackEventArgs.cs" />
-    <Compile Include="Events\Attack\BeforeAnswerEventArgs.cs" />
-    <Compile Include="Events\Attack\BeforeAttackEventArgs.cs" />
-    <Compile Include="Events\CancelEventArgs.cs" />
-    <Compile Include="Events\EventBus.cs" />
-    <Compile Include="Events\Turn\NextTurnEventArgs.cs" />
-    <Compile Include="ModLoader.cs" />
-    <Compile Include="Objects\Army.cs" />
-    <Compile Include="Objects\Unit.cs" />
-    <Compile Include="Objects\UnitProperty.cs" />
-    <Compile Include="Objects\UnitsStack.cs" />
+    <Compile Include="ArmyTests.cs" />
+    <Compile Include="BattleArmyTests.cs" />
+    <Compile Include="BattleTests.cs" />
+    <Compile Include="BattleUnitsStackTests.cs" />
+    <Compile Include="ModTests.cs" />
+    <Compile Include="UnitsStackTests.cs" />
+    <Compile Include="UnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Skills\Skills.cs" />
-    <Compile Include="Skills\BattleUnitsStack\SkillHaste.cs" />
-    <Compile Include="UnitProperties\UnitPropertyShooter.cs" />
-    <Compile Include="UnitProperties\UnitPropertySkillHaste.cs" />
-    <Compile Include="Units\Units.cs" />
-    <Compile Include="Units\UnitAngel.cs" />
-    <Compile Include="Units\UnitSkeleton.cs" />
-    <Compile Include="Utils\DamageUtils.cs" />
-    <Compile Include="Utils\InitiativeUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HOMM.Mod\HOMM.Mod.csproj">
+      <Project>{4a779831-8bda-4b36-81e9-66e43ae1c2da}</Project>
+      <Name>HOMM.Mod</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HOMM\HOMM.csproj">
+      <Project>{42f41446-b887-4a0f-9208-aad4b773c33c}</Project>
+      <Name>HOMM</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
