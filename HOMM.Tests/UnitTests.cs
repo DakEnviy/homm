@@ -10,14 +10,16 @@ namespace HOMM.Tests
         [Test]
         public void CreateUnit()
         {
+            const string name = "test";
             const int hitPoints = 10;
             const int attack = 11;
             const int defence = 12;
             (int, int) damage = (5, 4);
             const float initiative = 13.0f;
             
-            Unit unit = new Unit(hitPoints, attack, defence, damage, initiative);
+            Unit unit = new Unit(name, hitPoints, attack, defence, damage, initiative);
 
+            Assert.AreEqual(name, unit.GetName());
             Assert.AreEqual(hitPoints, unit.GetHitPoints());
             Assert.AreEqual(attack, unit.GetAttack());
             Assert.AreEqual(defence, unit.GetDefence());
