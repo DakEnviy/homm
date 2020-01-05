@@ -5,18 +5,20 @@ using HOMM.Skills.BattleUnitsStack;
 
 namespace HOMM.Skills
 {
-    public class Skills
+    public static class Skills
     {
         public static readonly IDictionary<string, Skill> Registry = new Dictionary<string, Skill>();
 
-        public static void RegisterSkill(string key, Skill skill)
+        public static void RegisterSkill(Skill skill)
         {
+            var key = skill.GetName();
+            
             if (Registry.ContainsKey(key))
             {
                 throw new ArgumentException($"Skill with key '{key}' already has");
             }
             
-            Registry.Add(key, skill);
+            Registry.Add(skill.GetName(), skill);
         }
 
         public static bool UnregisterSkill(string key) => Registry.Remove(key);
@@ -25,7 +27,7 @@ namespace HOMM.Skills
 
         static Skills()
         {
-            RegisterSkill("haste", new SkillHaste());
+            RegisterSkill(new SkillHaste());
         }
     }
 }
