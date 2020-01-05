@@ -1,5 +1,6 @@
 using System;
 using HOMM.Events.Attack;
+using HOMM.Events.Turn;
 
 namespace HOMM.Events
 {
@@ -9,6 +10,7 @@ namespace HOMM.Events
         public static event EventHandler<AfterAttackEventArgs> AfterAttack;
         public static event EventHandler<BeforeAnswerEventArgs> BeforeAnswer;
         public static event EventHandler<AfterAnswerEventArgs> AfterAnswer;
+        public static event EventHandler<NextTurnEventArgs> NextTurn;
 
         public static void OnBeforeAttack(object sender, BeforeAttackEventArgs args)
         {
@@ -28,6 +30,11 @@ namespace HOMM.Events
         public static void OnAfterAnswer(object sender, AfterAnswerEventArgs args)
         {
             AfterAnswer?.Invoke(sender, args);
+        }
+        
+        public static void OnNextTurn(object sender, NextTurnEventArgs args)
+        {
+            NextTurn?.Invoke(sender, args);
         }
     }
 }
