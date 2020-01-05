@@ -74,7 +74,7 @@ namespace HOMM.BattleObjects
                 mod.Round();
             }
 
-            foreach (var mod in _mods.Where(mod => mod.GetRoundsLeft() == 0))
+            foreach (var mod in _mods.Where(mod => mod.GetRoundsLeft() == 0).ToList())
             {
                 RemoveMod(mod);
             }
@@ -106,7 +106,7 @@ namespace HOMM.BattleObjects
 
         public void RemoveNonEternalMods()
         {
-            foreach (var mod in _mods.Where(mod => mod.GetRounds() != -1))
+            foreach (var mod in _mods.Where(mod => mod.GetRounds() != -1).ToList())
             {
                 RemoveMod(mod);
             }
