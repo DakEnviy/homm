@@ -4,7 +4,7 @@ namespace HOMM.Objects
 {
     public class UnitsStack
     {
-        private const int MaxStackSize = 999_999;
+        public const int MaxStackSize = 999_999;
 
         private readonly Unit _unit;
         private readonly int _amount;
