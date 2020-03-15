@@ -67,6 +67,7 @@
     <Compile Include="Skills\BattleUnitsStack\SkillHaste.cs" />
     <Compile Include="UnitProperties\UnitPropertyShooter.cs" />
     <Compile Include="UnitProperties\UnitPropertySkillHaste.cs" />
+    <Compile Include="Units\UnitRider.cs" />
     <Compile Include="Units\Units.cs" />
     <Compile Include="Units\UnitAngel.cs" />
     <Compile Include="Units\UnitSkeleton.cs" />

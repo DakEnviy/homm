@@ -4,7 +4,7 @@ using HOMM.Objects;
 
 namespace HOMM.Units
 {
-    public class Units
+    public static class Units
     {
         public static readonly IDictionary<string, Unit> Registry = new Dictionary<string, Unit>();
 
@@ -28,6 +28,7 @@ namespace HOMM.Units
         {
             RegisterUnit(new UnitAngel());
             RegisterUnit(new UnitSkeleton());
+            RegisterUnit(new UnitRider());
         }
     }
 }
