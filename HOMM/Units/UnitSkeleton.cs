@@ -6,7 +6,7 @@ namespace HOMM.Units
     public class UnitSkeleton : Unit
     {
         public UnitSkeleton()
-            : base("skeleton", 5, 1, 2, (1, 1), 10.0f,
+            : base("skeleton", 5, 1, 2, (1, 3), 10.0f,
                 new UnitPropertyShooter()) {}
     }
 }
